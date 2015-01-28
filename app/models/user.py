@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from werkzeug.security import generate_password_hash, check_password_hash
+from slugify import slugify
 
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_admin.contrib.sqla import ModelView
 
 from app.models import AuthMixin
@@ -18,6 +19,9 @@ class User(db.Model):
     superuser = db.Column(db.Boolean())
     active = db.Column(db.Boolean())
 
+    blog_title = db.Column(db.String(50))
+    blog_slug = db.Column(db.String(50), unique=True)
+
     posts = db.relationship('Post', backref='user', lazy='dynamic')
 
     def __init__(self, username, password, active=True, superuser=False):
@@ -25,6 +29,8 @@ class User(db.Model):
         self.superuser = superuser
         self.active = active
         self.set_password(password)
+        self.blog_title = "Untitled Blog"
+        self.blog_slug = slugify(self.username)
 
     def save(self):
         db.session.add(self)
