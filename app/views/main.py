@@ -25,7 +25,7 @@ def index():
     if login_form.has_been_submitted(request):
         if login_form.validate_on_submit():
             user = User.query.filter_by(username=login_form.username.data).first()
-            return redirect(url_for('blog.index', user=user.username))
+            return redirect(url_for('blog.index', user_slug=user.blog_slug))
         else:
             start_div = "login-div"
 
@@ -34,7 +34,7 @@ def index():
             new_user = User(username=register_form.username.data, password=register_form.password.data, active=True,
                             superuser=False)
             new_user.save()
-            return redirect(url_for('blog.index', user=new_user.username))
+            return redirect(url_for('blog.index', user_slug=new_user.blog_slug))
         else:
             start_div = "registration-div"
 
