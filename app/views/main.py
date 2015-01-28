@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from flask import render_template, redirect, url_for, request
-from flask_login import current_user
+from flask import render_template, redirect, url_for, request, flash
+from flask_login import current_user, login_user, logout_user
 
 from app import app
 from app.forms import LoginForm, RegisterForm
@@ -18,6 +18,9 @@ def index():
     TODO: Handle if user is connected
     start_div is the div displayed on page load. Useful for forms with errors
     """
+    if current_user.is_authenticated():
+        return render_template("logged_index.html", user=current_user)
+
     start_div = "home-div"
     login_form = LoginForm(request.form, prefix="login")
     register_form = RegisterForm(request.form, prefix="register")
@@ -25,7 +28,9 @@ def index():
     if login_form.has_been_submitted(request):
         if login_form.validate_on_submit():
             user = User.query.filter_by(username=login_form.username.data).first()
-            return redirect(url_for('blog.index', user_slug=user.blog_slug))
+            login_user(user)
+            flash("Your are now logged in.", category="info")
+            return redirect(url_for('index'))
         else:
             start_div = "login-div"
 
@@ -34,7 +39,7 @@ def index():
             new_user = User(username=register_form.username.data, password=register_form.password.data, active=True,
                             superuser=False)
             new_user.save()
-            return redirect(url_for('blog.index', user_slug=new_user.blog_slug))
+            return redirect(url_for('index'))
         else:
             start_div = "registration-div"
 
@@ -42,4 +47,5 @@ def index():
 
 @app.route("/logout", methods=['GET'])
 def logout():
-    return "Logout Page"
+    logout_user()
+    return redirect(url_for("index"))

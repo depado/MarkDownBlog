@@ -1,0 +1,17 @@
+{% extends 'cover.html' %}
+
+{% block inner_content %}
+<div>
+    <h1 class="cover-heading">Welcome, {{ user.username }} !</h1>
+    <p class="lead">What would you like to do today ?</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <a href="{{ url_for('blog.index', user_slug=user.blog_slug) }}" class="btn btn-lg btn-primary btn-block">Administrate your blog</a>
+                <a href="{{ url_for('explore') }}" class="btn btn-lg btn-primary btn-block">Explore the other blogs</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-lg btn-primary btn-block">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
