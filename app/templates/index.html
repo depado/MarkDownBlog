@@ -1,0 +1,80 @@
+{% extends 'cover.html' %}
+{% from "helpers.html" import render_field %}
+
+{% block extra_css_resources %}
+{{ super() }}
+<link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block inner_content %}
+<div id="home-div">
+    <h1 class="cover-heading">MarkDownBlog</h1>
+    <p class="lead">MarkDownBlog is a simple web application that allows you to create your own blog. Inspired by Tumblr and GitHub, it creates a subdomain for your own blog and uses markdown to process the posts. <br />Using bootstrap because I have no skills in design.</p>
+    <p class="lead">
+        <a href="#" class="btn btn-lg btn-primary open-login-div">Login</a>
+        <a href="#" class="btn btn-lg btn-primary open-registration-div">Register</a>
+    </p>
+    <br />
+    <p class="lead"><a href="#" class="btn btn-lg btn-default">Explore the blogs !</a></p>
+</div>
+
+<div id="login-div">
+    <form class="form-signin" method="post" action="">
+        {{ login_form.hidden_tag() }}
+        {{ render_field(login_form.username) }}
+        {{ render_field(login_form.password) }}
+        <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ login_form._prefix }}btn">Sign in</button>
+    </form>
+    <a href="#" class="open-registration-div" style="text-decoration: none;">
+        No Account yet ? Click here to register.
+    </a>
+    <br />
+    <a href="#" class="open-home-div" style="text-decoration: none;">
+        Or click here to go back to the homepage.
+    </a>
+</div>
+
+<div id="registration-div">
+    <form class="form-signin" method="post" action="">
+        {{ register_form.hidden_tag() }}
+        {{ render_field(register_form.username) }}
+        {{ render_field(register_form.password) }}
+        {{ render_field(register_form.confirm) }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="btn" value="{{ register_form._prefix }}btn">Register</button>
+    </form>
+    <a href="#" class="open-login-div" style="text-decoration: none;">Already have an account ? Click here to login.</a>
+    <br />
+    <a href="#" class="open-home-div" style="text-decoration: none;">Or click here to go back to the homepage.</a>
+</div>
+{% endblock %}
+
+{% block extra_js_at_end %}
+<script>
+    var current_div = $("#{{ start_div }}");
+
+    function show_new_div(selector) {
+        jselector = $(selector);
+        current_div.fadeOut(400, function () {
+            jselector.fadeIn();
+        });
+        current_div = jselector;
+    }
+
+    $(function() {
+        $("#home-div").hide();
+        $("#login-div").hide();
+        $("#registration-div").hide();
+        $("#{{ start_div }}").show();
+
+        $(".open-login-div").click(function () {
+            show_new_div("#login-div");
+        });
+        $(".open-registration-div").click(function () {
+            show_new_div("#registration-div");
+        });
+        $(".open-home-div").click(function () {
+            show_new_div("#home-div");
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MarkDownBlog</title>
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/messenger.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/messenger-theme-ice.css') }}" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    {% block extra_css_resources %}{% endblock %}
+    {% block extra_style %}{% endblock %}
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/messenger.min.js') }}"></script>
+
+    {% block extrajs %}{% endblock %}
+
+  </head>
+  <body>
+    {% block content %}{% endblock %}
+    <script type="text/javascript">
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'ice'
+        }
+        {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category, message in messages %}
+        Messenger().post({
+            message: "{{message}}",
+            category: "{{category}}",
+            showCloseButton: true
+        });
+        {% endfor %}{% endif %}{% endwith %}
+    </script>
+    {% block extra_js_at_end %}{% endblock %}
+  </body>
+</html>
