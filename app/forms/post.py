@@ -7,6 +7,6 @@ from .base import CustomForm
 
 
 class PostForm(CustomForm):
-    title = StringField('Title', validators=[DataRequired(), Length(min=5)])
-    content = TextAreaField('Post', validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired(), Length(min=5)], description={'placeholder': "Title"})
+    content = TextAreaField('Post', validators=[DataRequired()], description={'placeholder': "Content (MarkDown)"})
 
