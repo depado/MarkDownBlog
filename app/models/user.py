@@ -19,8 +19,10 @@ class User(db.Model):
     superuser = db.Column(db.Boolean())
     active = db.Column(db.Boolean())
 
-    blog_title = db.Column(db.String(50))
     blog_slug = db.Column(db.String(50), unique=True)
+
+    blog_title = db.Column(db.String(50))
+    blog_description = db.Column(db.String(200))
 
     posts = db.relationship('Post', backref='user', lazy='dynamic')
 
@@ -31,6 +33,7 @@ class User(db.Model):
         self.set_password(password)
         self.blog_title = "Untitled Blog"
         self.blog_slug = slugify(self.username)
+        self.blog_description = "No Description"
 
     def save(self):
         db.session.add(self)

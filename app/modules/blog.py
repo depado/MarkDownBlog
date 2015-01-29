@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint
+from flask import Blueprint, render_template
+from jinja2 import utils
 
 from app.models import User
 
@@ -16,9 +17,10 @@ def index(user_slug):
     # Compare if logged_user has the login and return admin page otherwise blog entries
     blog_user = requested_blog_user(user_slug)
     if blog_user:
-        return "{} blog there ({})<br />Blog Title : {}".format(blog_user.username, user_slug, blog_user.blog_title)
+        return render_template("blog_index.html")
+        #"{} blog there ({})<br />Blog Title : {}".format(blog_user.username, user_slug, blog_user.blog_title)
     else:
-        return "{} blog not found".format(user_slug)
+        return "{} blog not found".format(utils.escape(user_slug))
 
 
 @blueprint.route("/<int:post_id>")
@@ -30,11 +32,17 @@ def get(user_slug, post_id):
         return "{} blog not found".format(user_slug)
 
 
-@blueprint.route("/create")
-def create(user_slug):
+@blueprint.route("/new")
+def new(user_slug):
     return "Create"
 
 
 @blueprint.route("/delete/<int:post_id>")
 def delete(user_slug, post_id):
     return "Delete {}".format(post_id)
+
+
+@blueprint.route("/settings")
+def settings(user_slug):
+    blog_user = requested_blog_user(user_slug)
+    return "Settings"

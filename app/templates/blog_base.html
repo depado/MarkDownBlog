@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block extra_style %}
+<style type="text/css">
+    body {
+        background:url("{{ url_for('static', filename='img/2.png') }}") repeat scroll 0% 0% transparent;
+    }
+</style>
+{% endblock %}
+{% include "blog_menu.html" %}
+{% block content %}{% endblock %}

@@ -19,7 +19,7 @@ def index():
     start_div is the div displayed on page load. Useful for forms with errors
     """
     if current_user.is_authenticated():
-        return render_template("logged_index.html", user=current_user)
+        return render_template("blog_explore.html", user=current_user)
 
     start_div = "home-div"
     login_form = LoginForm(request.form, prefix="login")
