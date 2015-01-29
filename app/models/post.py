@@ -29,3 +29,11 @@ class Post(db.Model):
             db.session.rollback()
             return False
         return True
+
+    def delete(self):
+        db.session.delete(self)
+        try:
+            db.session.commit()
+        except:
+            return False
+        return True
