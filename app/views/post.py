@@ -7,6 +7,7 @@ from app import app
 from app.models import Post
 from app.forms import PostForm
 
+
 @app.route('/new', methods=['GET', 'POST'])
 @login_required
 def new():
@@ -23,3 +24,28 @@ def new():
 
     return render_template("new_post.html", form=form)
 
+
+@app.route('/edit/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def edit(post_id):
+    post = Post.query.get(post_id)
+    if post is not None:
+        if post.user == current_user:
+            form = PostForm(obj=post)
+            if form.has_been_submitted(request):
+                if form.validate_on_submit():
+                    post.title = form.title.data
+                    post.content = form.content.data
+                    saved = post.save()
+                    if saved:
+                        flash("Successfully saved the post.")
+                        return redirect(url_for("blog.get", user_slug=current_user.blog_slug, post_id=post_id))
+                    else:
+                        flash("Something went wrong...")
+
+            return render_template("edit_post.html", form=form)
+        else:
+            flash("Your are not authorized to do that.")
+            return redirect(url_for('index'))
+    else:
+        return render_template("blog_page_404", post_id=post_id)

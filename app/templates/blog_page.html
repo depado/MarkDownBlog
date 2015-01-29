@@ -1,18 +1,11 @@
+{% from "helpers.html" import render_blog_post %}
 {% extends "blog_base.html" %}
 
 {% block inner_content %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h4>{{ post.title|e }}</h4>
-                    {{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by <a href="#">{{ post.user.username }}</a>
-                </div>
-                <div class="panel-body">
-                    {{ post.content | markdown | safe }}
-                </div>
-            </div>
+            {{ render_blog_post(post, owner=owner)}}
         </div>
     </div>
 </div>

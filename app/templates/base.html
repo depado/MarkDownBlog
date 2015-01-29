@@ -46,6 +46,20 @@
             showCloseButton: true
         });
         {% endfor %}{% endif %}{% endwith %}
+        function swal_delete(url) {
+            swal({
+              title: "Are you sure?",
+              text: "This will delete the article permanently.",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Yes",
+              closeOnConfirm: false
+            },
+            function(){
+              location.href=url;
+            });
+        }
     </script>
     {% block extra_js_at_end %}{% endblock %}
   </body>

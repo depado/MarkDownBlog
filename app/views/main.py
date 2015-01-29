@@ -2,7 +2,7 @@
 
 from sqlalchemy import desc
 from flask import render_template, redirect, url_for, request, flash
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 
 from app import app
 from app.forms import LoginForm, RegisterForm
@@ -51,3 +51,8 @@ def index():
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+@app.route("/settings")
+@login_required
+def settings():
+    return "Settings"

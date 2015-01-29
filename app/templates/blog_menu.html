@@ -24,7 +24,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{{ url_for('new') }}">New Post</a></li>
                         <li><a href="{{ url_for('blog.index', user_slug=user.blog_slug) }}">All my Posts</a></li>
-                        <li><a href="{{ url_for('blog.settings', user_slug=user.blog_slug) }}">Settings</a></li>
+                        <li><a href="{{ url_for('settings') }}">Settings</a></li>
                     </ul>
                 </li>
                 <li><a href="{{ url_for('logout') }}"><i class="fa fa-power-off"></i> Logout</a></li>

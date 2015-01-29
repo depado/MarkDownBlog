@@ -5,7 +5,6 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import current_user
 from jinja2 import utils
 
-from app import db
 from app.models import User, Post
 
 blueprint = Blueprint('blog', __name__, subdomain="<user_slug>")
@@ -17,7 +16,6 @@ def requested_blog_user(user_slug):
 
 @blueprint.route("/")
 def index(user_slug):
-    # Compare if logged_user has the login and return admin page otherwise blog entries
     blog_user = requested_blog_user(user_slug)
     if blog_user:
         posts = blog_user.posts.order_by(desc(Post.pub_date)).all()
@@ -32,7 +30,7 @@ def get(user_slug, post_id):
     if blog_user:
         post = Post.query.get(post_id)
         if post is not None:
-            return render_template("blog_page.html", post=post)
+            return render_template("blog_page.html", post=post, owner=blog_user == current_user)
         else:
             return render_template("blog_page_404.html", post_id=post_id)
     else:
@@ -56,9 +54,3 @@ def delete(user_slug, post_id):
             return redirect(url_for('blog.index', user_slug=user_slug))
     else:
         return render_template("blog_page_404.html", post_id=post_id)
-
-
-@blueprint.route("/settings")
-def settings(user_slug):
-    blog_user = requested_blog_user(user_slug)
-    return "Settings"

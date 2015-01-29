@@ -1,3 +1,4 @@
+{% from "helpers.html" import render_blog_post %}
 {% extends "blog_base.html" %}
 
 {% block inner_content %}
@@ -5,41 +6,9 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             {% for post in posts %}
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h4>{{ post.title|e }} <a class="pull-right" href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}"><i class="fa fa-share"></i></a></h4>
-                    {{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by <a href="{{ url_for('blog.index', user_slug=post.user.blog_slug) }}">{{ post.user.username }}</a>
-                </div>
-                <div class="panel-body">
-                    {{ post.content | markdown | safe }}
-                </div>
-                {% if owner %}
-                <div class="panel-footer">
-                    <a href="#" onclick="swal_delete('{{ url_for('blog.delete', user_slug=post.user.blog_slug, post_id=post.id) }}'); return false;"><i class="fa fa-trash"></i></a>
-                </div>
-                {% endif %}
-            </div>
+                {{ render_blog_post(post, owner=owner) }}
             {% endfor %}
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js_at_end %}
-<script>
-    function swal_delete(url) {
-        swal({
-		  title: "Are you sure?",
-		  text: "This will delete the article permanently.",
-		  type: "warning",
-		  showCancelButton: true,
-		  confirmButtonColor: "#DD6B55",
-		  confirmButtonText: "Yes",
-		  closeOnConfirm: false
-		},
-		function(){
-		  location.href=url;
-		});
-    }
-</script>
 {% endblock %}
