@@ -10,8 +10,8 @@
             {% for post in posts %}
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h4>{{ post.title }} <a class="pull-right" href="#"><i class="fa fa-share"></i></a></h4>
-                    {{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by <a href="#">{{ user.username }}</a>
+                    <h4>{{ post.title|e }} <a class="pull-right" href="#"><i class="fa fa-share"></i></a></h4>
+                    {{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by <a href="#">{{ post.user.username }}</a>
                 </div>
                 <div class="panel-body">
                     {{ post.content | markdown | safe }}
