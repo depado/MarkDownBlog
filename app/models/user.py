@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from slugify import slugify
+from datetime import datetime
 
+from slugify import slugify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_admin.contrib.sqla import ModelView
 
@@ -18,6 +19,7 @@ class User(db.Model):
     password = db.Column(db.String(54))
     superuser = db.Column(db.Boolean())
     active = db.Column(db.Boolean())
+    register_date = db.Column(db.DateTime())
 
     blog_slug = db.Column(db.String(50), unique=True)
 
@@ -34,6 +36,7 @@ class User(db.Model):
         self.blog_title = "Untitled Blog"
         self.blog_slug = slugify(self.username)
         self.blog_description = "No Description"
+        self.register_date = datetime.utcnow()
 
     def save(self):
         db.session.add(self)

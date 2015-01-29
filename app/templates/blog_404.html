@@ -1,0 +1,9 @@
+{% extends "cover.html" %}
+
+{% block inner_content %}
+<h1 class="cover-heading">404 Blog Not Found</h1>
+<br />
+<p class="lead">There is no blog named <b>{{ blog_name }}</b> right now.</p>
+<p class="lead">Maybe you could create one ?</p>
+<a href="{{ url_for('index') }}" style="text-decoration: none;">Click <b>here</b> to go back.</a>
+{% endblock %}

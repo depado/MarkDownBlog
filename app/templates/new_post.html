@@ -1,0 +1,12 @@
+{% from "helpers.html" import render_field %}
+{% extends "blog_base.html" %}
+
+{% block content %}
+{{ super() }}
+<form class="form-signin" method="post" action="">
+    {{ form.hidden_tag() }}
+    {{ render_field(form.title) }}
+    {{ render_field(form.content) }}
+    <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ form._prefix }}btn">Post</button>
+</form>
+{% endblock %}

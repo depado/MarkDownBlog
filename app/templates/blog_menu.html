@@ -8,22 +8,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand">MarkDownBlog</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('explore') }}">Explore</a></li>
             </ul>
             {% if user.is_authenticated() %}
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Blog
-                        <span class="caret"></span>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <i class="fa fa-comment"></i> My Blog
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ url_for('blog.new', user_slug=user.blog_slug) }}">New Post</a></li>
+                        <li><a href="{{ url_for('new') }}">New Post</a></li>
                         <li><a href="{{ url_for('blog.index', user_slug=user.blog_slug) }}">All my Posts</a></li>
                         <li><a href="{{ url_for('blog.settings', user_slug=user.blog_slug) }}">Settings</a></li>
                     </ul>

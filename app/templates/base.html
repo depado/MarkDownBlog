@@ -14,6 +14,15 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     {% block extra_css_resources %}{% endblock %}
     {% block extra_style %}{% endblock %}
+    <style type="text/css">
+        body {
+            background: url("{{ url_for('static', filename='img/2.png') }}") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/messenger.min.js') }}"></script>

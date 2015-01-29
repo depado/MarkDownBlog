@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from sqlalchemy import desc
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, logout_user
 
@@ -19,7 +20,8 @@ def index():
     start_div is the div displayed on page load. Useful for forms with errors
     """
     if current_user.is_authenticated():
-        return render_template("blog_explore.html", user=current_user)
+        latest_users = User.query.order_by(desc(User.register_date)).limit(10).all()
+        return render_template("blog_explore.html", latest_users=latest_users)
 
     start_div = "home-div"
     login_form = LoginForm(request.form, prefix="login")

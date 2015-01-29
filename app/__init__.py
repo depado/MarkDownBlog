@@ -5,11 +5,13 @@ from flask import redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 from flask_admin import Admin, AdminIndexView, expose
+from flask_misaka import Misaka
 
 app = Flask(__name__)
 app.config.from_object('config')
 
 db = SQLAlchemy(app)
+Misaka(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -29,5 +31,9 @@ from app import views, models
 
 from app.modules import blog
 app.register_blueprint(blog.blueprint)
+
+@app.context_processor
+def inject_user():
+    return dict(user=current_user)
 
 

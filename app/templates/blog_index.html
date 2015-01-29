@@ -1,1 +1,24 @@
 {% extends "blog_base.html" %}
+{% block extra_css_resources %}
+<link href="{{ url_for('static', filename='css/blog.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block inner_content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            {% for post in posts %}
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4>{{ post.title }} <a class="pull-right" href="#"><i class="fa fa-share"></i></a></h4>
+                    {{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by <a href="#">{{ user.username }}</a>
+                </div>
+                <div class="panel-body">
+                    {{ post.content | markdown | safe }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
