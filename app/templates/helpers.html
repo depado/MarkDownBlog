@@ -14,6 +14,7 @@
             <div class="col-md-11"><h4 style="word-break: break-all;">{{ post.title | e }}</h4></div>
             <div class="col-md-1">
                 <a class="pull-right" href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}"><i class="fa fa-share"></i></a><br />
+                {% if owner %}
                 <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-cog"></i>
                 </a>
@@ -22,6 +23,7 @@
                     <li role="presentation" class="divider"></li>
                     <li><a href="#" onclick="swal_delete('{{ url_for('blog.delete', user_slug=post.user.blog_slug, post_id=post.id) }}'); return false;"><i class="fa fa-trash"></i> Delete</a></li>
                 </ul>
+                {% endif %}
             </div>
         </div>
         {{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by <a href="{{ url_for('blog.index', user_slug=post.user.blog_slug) }}">{{ post.user.username | e }}</a>
