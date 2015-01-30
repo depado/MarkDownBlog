@@ -49,6 +49,9 @@
     <div class="panel-footer">
         <h4>{{ user.blog_title | e }}</h4>
         <p>{{ user.blog_description | e }}</p>
+        {% if owner %}
+        <a href="{{ url_for('new') }}" class="btn btn-primary btn-block">Write a New Article</a>
+        {% endif %}
     </div>
 </div>
 {% endmacro %}
