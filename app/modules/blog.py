@@ -19,7 +19,7 @@ def index(user_slug):
     blog_user = requested_blog_user(user_slug)
     if blog_user:
         posts = blog_user.posts.order_by(desc(Post.pub_date)).all()
-        return render_template("blog_index.html", owner=blog_user == current_user, posts=posts)
+        return render_template("blog_index.html", owner=blog_user == current_user, posts=posts, blog_user=blog_user)
     else:
         return render_template("blog_404.html", blog_name=utils.escape(user_slug))
 
@@ -30,7 +30,7 @@ def get(user_slug, post_id):
     if blog_user:
         post = Post.query.get(post_id)
         if post is not None:
-            return render_template("blog_page.html", post=post, owner=blog_user == current_user)
+            return render_template("blog_page.html", post=post, owner=blog_user == current_user, blog_user=blog_user)
         else:
             return render_template("blog_page_404.html", post_id=post_id)
     else:

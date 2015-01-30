@@ -18,7 +18,7 @@
                 <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-cog"></i>
                 </a>
-                <ul class="dropdown-menu" role="menu">
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
                     <li><a href="{{ url_for('edit', post_id=post.id) }}"><i class="fa fa-pencil"></i> Edit</a></li>
                     <li role="presentation" class="divider"></li>
                     <li><a href="#" onclick="swal_delete('{{ url_for('blog.delete', user_slug=post.user.blog_slug, post_id=post.id) }}'); return false;"><i class="fa fa-trash"></i> Delete</a></li>
@@ -30,6 +30,25 @@
     </div>
     <div class="panel-body">
         {{ post.content | e | markdown | safe }}
+    </div>
+</div>
+{% endmacro %}
+
+{% macro render_blog_profile(user, owner=False) %}
+<div class="panel panel-info">
+    <div class="panel-body">
+        {% if owner %}
+        <a href="{{ url_for('settings') }}" class="pull-right"><i class="fa fa-pencil"></i></a>
+        {% endif %}
+        {% if user.blog_image %}
+        <img src="{{ user.blog_image }}" alt="avatar" class="img-circle img-responsive">
+        {% else %}
+        No Picture
+        {% endif %}
+    </div>
+    <div class="panel-footer">
+        <h4>{{ user.blog_title }}</h4>
+        <p>{{ user.blog_description }}</p>
     </div>
 </div>
 {% endmacro %}

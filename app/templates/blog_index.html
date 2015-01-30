@@ -1,10 +1,13 @@
-{% from "helpers.html" import render_blog_post %}
+{% from "helpers.html" import render_blog_post, render_blog_profile %}
 {% extends "blog_base.html" %}
 
 {% block inner_content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-2">
+            {{ render_blog_profile(blog_user, owner=owner)}}
+        </div>
+        <div class="col-md-10">
             {% for post in posts %}
                 {{ render_blog_post(post, owner=owner) }}
             {% endfor %}

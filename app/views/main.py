@@ -5,7 +5,7 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, logout_user, login_required
 
 from app import app
-from app.forms import LoginForm, RegisterForm
+from app.forms import LoginForm, RegisterForm, SettingForm
 from app.models import User
 
 
@@ -52,7 +52,19 @@ def logout():
     logout_user()
     return redirect(url_for("index"))
 
-@app.route("/settings")
+@app.route("/settings", methods=['GET', 'POST'])
 @login_required
 def settings():
-    return "Settings"
+    form = SettingForm(obj=current_user)
+    if form.has_been_submitted(request):
+        if form.validate_on_submit():
+            current_user.blog_title = form.blog_title.data
+            current_user.blog_description = form.blog_description.data
+            current_user.blog_image = form.blog_image.data
+            saved = current_user.save()
+            if saved:
+                flash("Saved your settings...")
+                return redirect(url_for("blog.index", user_slug=current_user.blog_slug))
+            else:
+                flash("Something went wrong...")
+    return render_template("settings.html", form=form)
