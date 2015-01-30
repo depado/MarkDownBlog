@@ -47,8 +47,8 @@
         {% endif %}
     </div>
     <div class="panel-footer">
-        <h4>{{ user.blog_title }}</h4>
-        <p>{{ user.blog_description }}</p>
+        <h4>{{ user.blog_title | e }}</h4>
+        <p>{{ user.blog_description | e }}</p>
     </div>
 </div>
 {% endmacro %}

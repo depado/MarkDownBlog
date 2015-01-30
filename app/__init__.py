@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from werkzeug.contrib.fixers import ProxyFix
 from flask import Flask
 from flask import redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -9,6 +10,7 @@ from flask_misaka import Misaka
 
 app = Flask(__name__)
 app.config.from_object('config')
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 db = SQLAlchemy(app)
 Misaka(app)
