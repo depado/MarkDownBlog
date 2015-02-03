@@ -22,12 +22,13 @@
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
+
             -ms-word-break: break-all;
-            word-break: break-all;
-
-            /* Non standard for webkit */
+            -ms-word-wrap: break-all;
+            -webkit-word-break: break-word;
+            -webkit-word-wrap: break-word;
             word-break: break-word;
-
+            word-wrap: break-word;
             -webkit-hyphens: auto;
             -moz-hyphens: auto;
             hyphens: auto;
