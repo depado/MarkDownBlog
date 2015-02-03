@@ -7,13 +7,15 @@
 </div>
 {% endmacro %}
 
-{% macro render_blog_post(post, owner=False) %}
+{% macro render_blog_post(post, owner=False, index=True) %}
 <div class="panel panel-info">
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-11"><h4>{{ post.title | e }}</h4></div>
             <div class="col-md-1">
+                {% if index %}
                 <a class="pull-right" href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}"><i class="fa fa-share"></i></a><br />
+                {% endif %}
                 {% if owner %}
                 <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-cog"></i>
