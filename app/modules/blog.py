@@ -39,10 +39,9 @@ def get(user_slug, post_id):
 
 @blueprint.route("/delete/<int:post_id>")
 def delete(user_slug, post_id):
-    blog_user = requested_blog_user(user_slug)
     post = Post.query.get(post_id)
     if post is not None:
-        if blog_user == current_user:
+        if post.user is current_user:
             deleted = post.delete()
             if deleted:
                 flash("The article has been deleted.")

@@ -13,7 +13,9 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('index') }}">Home</a></li>
+                {% if user.is_anonymous() %}
                 <li><a href="{{ url_for('explore') }}">Explore</a></li>
+                {% endif %}
             </ul>
             {% if user.is_authenticated() %}
             <ul class="nav navbar-nav navbar-right">
