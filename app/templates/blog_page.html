@@ -5,10 +5,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            {{ render_blog_profile(blog_user, owner=owner, index=False)}}
+            {{ render_blog_profile(blog_user, owner=owner)}}
         </div>
         <div class="col-md-10">
-            {{ render_blog_post(post, owner=owner)}}
+            {{ render_blog_post(post, owner=owner, index=False)}}
         </div>
     </div>
 </div>
