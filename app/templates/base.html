@@ -22,6 +22,15 @@
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
+            -ms-word-break: break-all;
+            word-break: break-all;
+
+            /* Non standard for webkit */
+            word-break: break-word;
+
+            -webkit-hyphens: auto;
+            -moz-hyphens: auto;
+            hyphens: auto;
         }
     </style>
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>

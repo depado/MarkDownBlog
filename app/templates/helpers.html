@@ -11,7 +11,7 @@
 <div class="panel panel-info">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-md-11"><h4 style="word-break: break-all;">{{ post.title | e }}</h4></div>
+            <div class="col-md-11"><h4>{{ post.title | e }}</h4></div>
             <div class="col-md-1">
                 <a class="pull-right" href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}"><i class="fa fa-share"></i></a><br />
                 {% if owner %}
@@ -21,7 +21,7 @@
                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
                     <li><a href="{{ url_for('edit', post_id=post.id) }}"><i class="fa fa-pencil"></i> Edit</a></li>
                     <li role="presentation" class="divider"></li>
-                    <li><a href="#" onclick="swal_delete('{{ url_for('blog.delete', user_slug=post.user.blog_slug, post_id=post.id) }}'); return false;"><i class="fa fa-trash"></i> Delete</a></li>
+                    <li><a href="#" onclick="swal_delete('{{ url_for('delete', post_id=post.id) }}'); return false;"><i class="fa fa-trash"></i> Delete</a></li>
                 </ul>
                 {% endif %}
             </div>

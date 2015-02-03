@@ -6,7 +6,8 @@ from flask_login import current_user, login_user, logout_user, login_required
 
 from app import app
 from app.forms import LoginForm, RegisterForm, SettingForm
-from app.models import User
+from app.models import User, Post
+from app.views.explore import explore_context
 
 
 def has_been_submitted(form, request):
@@ -19,9 +20,14 @@ def index():
     TODO: Handle if user is connected
     start_div is the div displayed on page load. Useful for forms with errors
     """
+
+    # Uncomment to force https on that page (maybe just for user login ?)
+    # if not app.config['DEBUG']:  # and current_user.is_anonymous()
+    #     if request.scheme == "http":
+    #         return redirect(url_for("index", _scheme="https"))
+
     if current_user.is_authenticated():
-        latest_users = User.query.order_by(desc(User.register_date)).limit(10).all()
-        return render_template("blog_explore.html", latest_users=latest_users)
+        return render_template("blog_explore.html", **explore_context())
 
     start_div = "home-div"
     login_form = LoginForm(request.form, prefix="login")

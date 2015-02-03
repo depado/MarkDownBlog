@@ -49,3 +49,20 @@ def edit(post_id):
             return redirect(url_for('index'))
     else:
         return render_template("blog_page_404", post_id=post_id)
+
+@app.route("/delete/<int:post_id>")
+def delete(post_id):
+    post = Post.query.get(post_id)
+    if post is not None:
+        if post.user is current_user:
+            deleted = post.delete()
+            if deleted:
+                flash("The article has been deleted.")
+            else:
+                flash("Something went wrong.")
+            return redirect(url_for('blog.index', user_slug=post.user.blog_slug))
+        else:
+            flash("You don't have the permission to do that.")
+            return redirect(url_for('blog.index', user_slug=post.user.blog_slug))
+    else:
+        return render_template("blog_page_404.html", post_id=post_id)

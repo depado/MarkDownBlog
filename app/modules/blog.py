@@ -35,21 +35,3 @@ def get(user_slug, post_id):
             return render_template("blog_page_404.html", post_id=post_id)
     else:
         return render_template("blog_404.html", blog_name=utils.escape(user_slug))
-
-
-@blueprint.route("/delete/<int:post_id>")
-def delete(user_slug, post_id):
-    post = Post.query.get(post_id)
-    if post is not None:
-        if post.user is current_user:
-            deleted = post.delete()
-            if deleted:
-                flash("The article has been deleted.")
-            else:
-                flash("Something went wrong.")
-            return redirect(url_for('blog.index', user_slug=user_slug))
-        else:
-            flash("You don't have the permission to do that.")
-            return redirect(url_for('blog.index', user_slug=user_slug))
-    else:
-        return render_template("blog_page_404.html", post_id=post_id)
