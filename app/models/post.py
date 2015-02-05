@@ -1,8 +1,34 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+import misaka
+from misaka import HtmlRenderer, SmartyPants
+from pygments import highlight
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters.html import HtmlFormatter
 
 from app import db
+
+
+class HighlighterRenderer(HtmlRenderer, SmartyPants):
+
+    def block_code(self, text, lang):
+        s = ''
+        if not lang:
+            lang = 'text'
+        try:
+            lexer = get_lexer_by_name(lang, stripall=True)
+        except:
+            lexer = get_lexer_by_name('text', stripall=True)
+
+        formatter = HtmlFormatter(noclasses=True)
+        s += highlight(text, lexer, formatter)
+        return s
+
+renderer = misaka.Markdown(
+    HighlighterRenderer(flags=misaka.HTML_ESCAPE | misaka.HTML_HARD_WRAP | misaka.HTML_SAFELINK),
+    extensions=misaka.EXT_FENCED_CODE | misaka.EXT_NO_INTRA_EMPHASIS | misaka.EXT_TABLES | misaka.EXT_AUTOLINK | misaka.EXT_SPACE_HEADERS | misaka.EXT_STRIKETHROUGH | misaka.EXT_SUPERSCRIPT
+)
 
 
 class Post(db.Model):
@@ -34,6 +60,9 @@ class Post(db.Model):
         db.session.delete(self)
         try:
             db.session.commit()
-        except:
+        except Exception as e:
             return False
         return True
+
+    def content_as_html(self):
+        return renderer.render(self.content)

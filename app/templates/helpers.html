@@ -35,7 +35,7 @@
         {{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by <a href="{{ url_for('blog.index', user_slug=post.user.blog_slug) }}">{{ post.user.username | e }}</a>
     </div>
     <div class="panel-body">
-        {{ post.content | e | markdown | safe }}
+        {{ post.content_as_html() | safe }}
     </div>
 </div>
 {% endmacro %}
