@@ -13,15 +13,22 @@ from app import db
 class HighlighterRenderer(HtmlRenderer, SmartyPants):
 
     def block_code(self, text, lang):
+        has_syntax_highlite = False
         if not lang:
             lang = 'text'
         try:
             lexer = get_lexer_by_name(lang, stripall=True)
+            if lang != 'text':
+                has_syntax_highlite = True
         except:
             lexer = get_lexer_by_name('text', stripall=True)
 
         formatter = HtmlFormatter()
-        return "{formatted}".format(formatted=highlight(text, lexer, formatter))
+        return "{open_block}{formatted}{close_block}".format(
+            open_block="<div class='code-highlight'>" if has_syntax_highlite else '',
+            formatted=highlight(text, lexer, formatter),
+            close_block="</div>" if has_syntax_highlite else ''
+        )
 
 renderer = misaka.Markdown(
     HighlighterRenderer(flags=misaka.HTML_ESCAPE | misaka.HTML_HARD_WRAP | misaka.HTML_SAFELINK),
