@@ -54,7 +54,7 @@ def edit(post_id):
 def delete(post_id):
     post = Post.query.get(post_id)
     if post is not None:
-        if post.user is current_user:
+        if post.user == current_user:
             deleted = post.delete()
             if deleted:
                 flash("The article has been deleted.")
