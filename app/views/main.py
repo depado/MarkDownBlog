@@ -67,6 +67,7 @@ def settings():
             current_user.blog_title = form.blog_title.data
             current_user.blog_description = form.blog_description.data
             current_user.blog_image = form.blog_image.data
+            current_user.blog_round_image = form.blog_round_image.data
             saved = current_user.save()
             if saved:
                 flash("Saved your settings...")

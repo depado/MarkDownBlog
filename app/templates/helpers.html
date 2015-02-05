@@ -1,9 +1,13 @@
-{% macro render_field(field) %}
+{% macro render_field(field, toggle=False) %}
 <div class="form-group {% if field.errors %}has-error{% endif %}">
-  {% if field.errors %}{% for err in field.errors %}
-  <label class="control-label">{{ err }}</label>
-  {% endfor %}{% endif %}
-  {{ field(class="form-control", placeholder=field.description.placeholder) }}
+    {% if field.errors %}{% for err in field.errors %}
+    <label class="control-label">{{ err }}</label>
+    {% endfor %}{% endif %}
+    {% if toggle %}
+        {{ field(class="form-control", data_toggle="toggle", data_on="Yes", data_off="No", data_onstyle="success") }}  {{ field.label }}
+    {% else %}
+        {{ field(class="form-control", placeholder=field.description.placeholder) }}
+    {% endif %}
 </div>
 {% endmacro %}
 
@@ -43,7 +47,7 @@
         <a href="{{ url_for('settings') }}" class="pull-right"><i class="fa fa-pencil"></i></a>
         {% endif %}
         {% if user.blog_image %}
-        <img src="{{ user.blog_image }}" alt="avatar" class="img-circle img-responsive">
+        <img src="{{ user.blog_image }}" alt="avatar" class="{% if user.blog_round_image %}img-circle{% endif %} img-responsive">
         {% else %}
         No Picture
         {% endif %}

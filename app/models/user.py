@@ -26,6 +26,7 @@ class User(db.Model):
     blog_title = db.Column(db.String(50))
     blog_description = db.Column(db.String(200))
     blog_image = db.Column(db.String(200))
+    blog_round_image = db.Column(db.Boolean())
 
     posts = db.relationship('Post', backref='user', lazy='dynamic')
 
@@ -39,12 +40,14 @@ class User(db.Model):
         self.blog_title = "Untitled Blog"
         self.blog_description = "No Description"
         self.blog_image = ""
+        self.blog_round_image = False
 
     def save(self):
         db.session.add(self)
         try:
             db.session.commit()
-        except:
+        except Exception as e:
+            print(e)
             db.session.rollback()
             return False
         return True

@@ -9,7 +9,12 @@
                 <div class="panel-content">
                     <ul class="nav nav-pills nav-stacked">
                     {% for latest in latest_users %}
-                    <li><a href="{{ url_for('blog.index', user_slug=latest.blog_slug) }}">{{ latest.username }}</a></li>
+                    <li>
+                        <a href="{{ url_for('blog.index', user_slug=latest.blog_slug) }}">
+                            {{ latest.username }}{% with count = latest.posts.count() %}<span class="badge pull-right">
+                            {% if count %}{{ count }} Article{% if count > 1 %}s{% endif %}{% else %}No Articles{% endif %}</span>{% endwith %}
+                        </a>
+                    </li>
                     {% endfor %}
                     </ul>
                 </div>

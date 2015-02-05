@@ -1,6 +1,13 @@
 {% from "helpers.html" import render_field %}
 {% extends "blog_base.html" %}
 
+{% block extra_css_resources %}
+<link href="//gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+{% endblock %}
+{% block extrajs %}
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+{% endblock %}
+
 {% block inner_content %}
 <div class="container-fluid">
     <div class="row">
@@ -15,6 +22,7 @@
                         {{ render_field(form.blog_title) }}
                         {{ render_field(form.blog_description) }}
                         {{ render_field(form.blog_image) }}
+                        {{ render_field(form.blog_round_image, toggle=True) }}
                         <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ form._prefix }}btn">Save</button>
                     </div>
                 </div>

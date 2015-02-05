@@ -3,7 +3,7 @@
 import requests
 import imghdr
 
-from wtforms.fields import StringField, TextAreaField
+from wtforms.fields import StringField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Length, URL, Optional
 from wtforms import ValidationError
 
@@ -25,6 +25,9 @@ class SettingForm(CustomForm):
         'Blog Image',
         validators=[Optional(), URL()],
         description={'placeholder': "Blog Image"}
+    )
+    blog_round_image = BooleanField(
+        'Round Blog Image',
     )
 
     def validate_blog_image(self, field):
