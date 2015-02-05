@@ -13,7 +13,6 @@ from app import db
 class HighlighterRenderer(HtmlRenderer, SmartyPants):
 
     def block_code(self, text, lang):
-        s = ''
         if not lang:
             lang = 'text'
         try:
@@ -21,9 +20,8 @@ class HighlighterRenderer(HtmlRenderer, SmartyPants):
         except:
             lexer = get_lexer_by_name('text', stripall=True)
 
-        formatter = HtmlFormatter(noclasses=True)
-        s += highlight(text, lexer, formatter)
-        return s
+        formatter = HtmlFormatter()
+        return "{formatted}".format(formatted=highlight(text, lexer, formatter))
 
 renderer = misaka.Markdown(
     HighlighterRenderer(flags=misaka.HTML_ESCAPE | misaka.HTML_HARD_WRAP | misaka.HTML_SAFELINK),
