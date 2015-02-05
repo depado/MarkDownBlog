@@ -18,7 +18,11 @@
             <div class="col-md-11"><h4>{{ post.title | e }}</h4></div>
             <div class="col-md-1">
                 {% if index %}
-                <a class="pull-right" href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}"><i class="fa fa-share"></i></a><br />
+                <div class="pull-right">
+                    <a href="#" onclick="toggle_raw('{{ post.id }}'); return false;"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
+                    <a class="pull-right" href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}"><i class="fa fa-share"></i></a>
+                </div>
+                <br />
                 {% endif %}
                 {% if owner %}
                 <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown" aria-expanded="false">
@@ -34,8 +38,13 @@
         </div>
         {{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by <a href="{{ url_for('blog.index', user_slug=post.user.blog_slug) }}">{{ post.user.username | e }}</a>
     </div>
-    <div class="panel-body">
-        {{ post.content_as_html() | safe }}
+    <div class="panel-body" id="post-{{ post.id }}">
+        <div id="post-parsed-{{ post.id }}">
+            {{ post.content_as_html() | safe }}
+        </div>
+        <div id="post-raw-{{ post.id }}" style="display: none;">
+            <pre>{{ post.content }}</pre>
+        </div>
     </div>
 </div>
 {% endmacro %}

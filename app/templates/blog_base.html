@@ -6,3 +6,12 @@
     {% include "blog_menu.html" %}
     {% block inner_content %}{% endblock %}
 {% endblock %}
+
+{% block extra_js_at_end %}
+<script>
+    function toggle_raw(post_id) {
+        $('#post-parsed-' + post_id).toggle();
+        $('#post-raw-' + post_id).toggle();
+    }
+</script>
+{% endblock %}
