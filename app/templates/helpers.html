@@ -23,6 +23,9 @@
                     <a class="pull-right" href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}"><i class="fa fa-share"></i></a>
                 </div>
                 <br />
+                {% else %}
+                <a href="#" class="pull-right" onclick="toggle_raw('{{ post.id }}'); return false;"><i class="fa fa-eye"></i></a>
+                <br />
                 {% endif %}
                 {% if owner %}
                 <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown" aria-expanded="false">
