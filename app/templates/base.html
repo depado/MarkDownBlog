@@ -18,11 +18,13 @@
     {% block extra_style %}{% endblock %}
     <style type="text/css">
         body {
-            background: url("{{ url_for('static', filename='img/2.png') }}") no-repeat center center fixed;
+            {{ background_css | safe }}
+            {% if background_cover %}
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
+            {% endif %}
 
             -ms-word-break: break-all;
             -ms-word-wrap: break-all;

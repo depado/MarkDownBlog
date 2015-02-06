@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import requests
-import imghdr
-
 from wtforms.fields import StringField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Length, URL, Optional
-from wtforms import ValidationError
 
 from .base import CustomForm
+from .utils import ImageUrl
 
 
 class SettingForm(CustomForm):
@@ -23,21 +20,28 @@ class SettingForm(CustomForm):
     )
     blog_image = StringField(
         'Blog Image',
-        validators=[Optional(), URL()],
+        validators=[Optional(), URL(), ImageUrl()],
         description={'placeholder': "Blog Image"}
     )
-    blog_round_image = BooleanField(
+    blog_image_rounded = BooleanField(
         'Round Blog Image',
     )
+    blog_bg = StringField(
+        'Blog Background',
+        validators=[Optional(), URL(), ImageUrl()],
+        description={'placeholder': "Blog Background"}
+    )
+    blog_bg_public = BooleanField(
+        'Blog Background Public'
+    )
+    blog_bg_repeat = BooleanField(
+        'Blog Background Repeat'
+    )
+    blog_bg_everywhere = BooleanField(
+        'Blog Background Everywhere'
+    )
+    blog_bg_override = BooleanField(
+        'Blog Background Override'
+    )
 
-    def validate_blog_image(self, field):
-        try:
-            r = requests.get(self.blog_image.data, stream=True)
-            if r.status_code == 200:
-                if not imghdr.what("image", h=r.content):
-                    raise ValidationError("Not a supported image type or not an image at all")
-            else:
-                raise ValidationError("URL is not accessible")
-        except:
-            raise ValidationError("The url or the image it points to is invalid")
 

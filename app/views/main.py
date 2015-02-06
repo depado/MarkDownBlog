@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import desc
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, logout_user, login_required
 
@@ -67,7 +66,12 @@ def settings():
             current_user.blog_title = form.blog_title.data
             current_user.blog_description = form.blog_description.data
             current_user.blog_image = form.blog_image.data
-            current_user.blog_round_image = form.blog_round_image.data
+            current_user.blog_image_rounded = form.blog_image_rounded.data
+            current_user.blog_bg = form.blog_bg.data
+            current_user.blog_bg_public = form.blog_bg_public.data
+            current_user.blog_bg_everywhere = form.blog_bg_everywhere.data
+            current_user.blog_bg_override = form.blog_bg_override.data
+            current_user.blog_bg_repeat = form.blog_bg_repeat.data
             saved = current_user.save()
             if saved:
                 flash("Saved your settings...")

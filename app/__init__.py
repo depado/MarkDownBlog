@@ -35,8 +35,6 @@ from app import views, models
 from app.modules import blog
 app.register_blueprint(blog.blueprint)
 
-@app.context_processor
-def inject_user():
-    return dict(user=current_user)
+from app.views.context import *
 
 

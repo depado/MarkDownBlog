@@ -15,14 +15,24 @@
             <form method="post" action="">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        Create a new post for your blog.
+                        Settings
                     </div>
                     <div class="panel-body">
                         {{ form.hidden_tag() }}
+                        <h2>General Settings</h2>
                         {{ render_field(form.blog_title) }}
                         {{ render_field(form.blog_description) }}
+                        <hr>
+                        <h2>Blog Image Settings</h2>
                         {{ render_field(form.blog_image) }}
-                        {{ render_field(form.blog_round_image, toggle=True) }}
+                        {{ render_field(form.blog_image_rounded, toggle=True) }}
+                        <hr>
+                        <h2>Blog Background Settings</h2>
+                        {{ render_field(form.blog_bg) }}
+                        {{ render_field(form.blog_bg_public, toggle=True) }}
+                        {{ render_field(form.blog_bg_repeat, toggle=True) }}
+                        {{ render_field(form.blog_bg_everywhere, toggle=True) }}
+                        {{ render_field(form.blog_bg_override, toggle=True) }}
                         <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ form._prefix }}btn">Save</button>
                     </div>
                 </div>
