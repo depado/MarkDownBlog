@@ -12,28 +12,22 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
+                {% if user.is_authenticated() %}
+                <li><a href="{{ url_for('index') }}"><i class="fa fa-search"></i>&nbsp;&nbsp;Explore</a></li>
+                <li><a href="{{ url_for('blog.index', user_slug=user.blog_slug) }}"><i class="fa fa-comment"></i>&nbsp;&nbsp;My Blog</a></li>
+                <li><a href="{{ url_for('new') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;New Article</a></li>
+                <li><a href="{{ url_for('settings') }}"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Settings</a></li>
+                {% endif %}
                 {% if user.is_anonymous() %}
-                <li><a href="{{ url_for('explore') }}">Explore</a></li>
+                <li><a href="{{ url_for('index') }}"><i class="fa fa-home"></i>&nbsp;&nbsp;Home</a></li>
+                <li><a href="{{ url_for('explore') }}"><i class="fa fa-search"></i>&nbsp;&nbsp;Explore</a></li>
                 {% endif %}
             </ul>
             {% if user.is_authenticated() %}
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        <i class="fa fa-comment"></i> My Blog
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ url_for('new') }}">New Post</a></li>
-                        <li><a href="{{ url_for('blog.index', user_slug=user.blog_slug) }}">All my Posts</a></li>
-                        <li><a href="{{ url_for('settings') }}">Settings</a></li>
-                    </ul>
-                </li>
                 <li><a href="{{ url_for('logout') }}"><i class="fa fa-power-off"></i> Logout</a></li>
             </ul>
             {% endif %}
         </div>
-        <!--/.nav-collapse -->
     </div>
-    <!--/.container-fluid -->
 </nav>

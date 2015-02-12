@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from wtforms import PasswordField, SubmitField, StringField
+from wtforms import PasswordField, SubmitField, StringField, BooleanField
 from wtforms.validators import DataRequired, ValidationError
 
 from app import db
@@ -12,6 +12,7 @@ from .base import CustomForm
 class LoginForm(CustomForm):
     username = StringField('login', validators=[DataRequired()], description={'placeholder': "Username"})
     password = PasswordField('password', validators=[DataRequired()], description={'placeholder': "Password"})
+    rememberme = BooleanField('Remember Me')
     submit = SubmitField('submit')
 
     def validate_username(self, field):

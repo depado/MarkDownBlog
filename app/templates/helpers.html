@@ -25,12 +25,11 @@
 <div class="panel panel-info">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-md-11"><h4>{{ post.title | e }}</h4></div>
+            <div class="col-md-11"><h4>{% if index %}<a href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}">{{ post.title | e }}</a>{% else %}{{ post.title | e }}{% endif %}</h4></div>
             <div class="col-md-1">
                 {% if index %}
                 <div class="pull-right">
-                    <a href="#" onclick="toggle_raw('{{ post.id }}'); return false;"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
-                    <a class="pull-right" href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}"><i class="fa fa-share"></i></a>
+                    <a href="#" onclick="toggle_raw('{{ post.id }}'); return false;"><i class="fa fa-eye"></i></a>
                 </div>
                 <br />
                 {% else %}

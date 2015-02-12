@@ -35,7 +35,7 @@ def index():
     if login_form.has_been_submitted(request):
         if login_form.validate_on_submit():
             user = User.query.filter_by(username=login_form.username.data).first()
-            login_user(user)
+            login_user(user, remember=login_form.rememberme.data)
             flash("Your are now logged in.", category="info")
             return redirect(url_for('index'))
         else:

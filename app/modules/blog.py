@@ -57,7 +57,8 @@ def get(user_slug, post_id):
     if blog_user:
         post = Post.query.get(post_id)
         if post is not None:
-            return render_template("blog_page.html", post=post, owner=blog_user == current_user, blog_user=blog_user)
+            return render_template("blog_page.html", post=post, owner=blog_user == current_user, blog_user=blog_user,
+                                   **generate_background_css(blog_user))
         else:
             return render_template("blog_page_404.html", post_id=post_id)
     else:

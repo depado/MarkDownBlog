@@ -4,6 +4,11 @@
 {% block extra_css_resources %}
 {{ super() }}
 <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+<link href="//gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block extrajs %}
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 {% endblock %}
 
 {% block inner_content %}
@@ -23,6 +28,7 @@
         {{ login_form.hidden_tag() }}
         {{ render_field(login_form.username, with_label=False) }}
         {{ render_field(login_form.password, with_label=False) }}
+        <span class="pull-left">{{ render_field(login_form.rememberme, toggle=True) }}</span>
         <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ login_form._prefix }}btn">Sign in</button>
     </form>
     <a href="#" class="open-registration-div" style="text-decoration: none;">
