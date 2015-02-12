@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user, logout_user, login_required
 
@@ -36,6 +38,8 @@ def index():
         if login_form.validate_on_submit():
             user = User.query.filter_by(username=login_form.username.data).first()
             login_user(user, remember=login_form.rememberme.data)
+            user.last_login = datetime.now()
+            user.save()
             flash("Your are now logged in.", category="info")
             return redirect(url_for('index'))
         else:

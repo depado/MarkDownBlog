@@ -48,7 +48,7 @@
     {% block content %}{% endblock %}
     <script type="text/javascript">
         Messenger.options = {
-            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-left',
             theme: 'ice'
         }
         {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category, message in messages %}
@@ -73,18 +73,22 @@
             });
         }
 	
-	var _paq = _paq || [];
-	_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-	_paq.push(["setCookieDomain", "*.markdownblog.com"]);
-	_paq.push(['trackPageView']);
-	_paq.push(['enableLinkTracking']);
-	(function() {
-	var u="//analytics.depado.eu/";
-	_paq.push(['setTrackerUrl', u+'mypi.php']);
-	_paq.push(['setSiteId', 4]);
-	var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-	g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'mypi.js'; s.parentNode.insertBefore(g,s);
-	})();
+        var _paq = _paq || [];
+        _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+        _paq.push(["setCookieDomain", "*.markdownblog.com"]);
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+        var u="//analytics.depado.eu/";
+        _paq.push(['setTrackerUrl', u+'mypi.php']);
+        _paq.push(['setSiteId', 4]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'mypi.js'; s.parentNode.insertBefore(g,s);
+        })();
+
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
     <noscript><p><img src="//analytics.depado.eu/my.php?idsite=4" style="border:0;" alt="" /></p></noscript>
     {% block extra_js_at_end %}{% endblock %}
