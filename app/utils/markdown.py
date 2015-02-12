@@ -28,7 +28,7 @@ class HighlighterRenderer(HtmlRenderer, SmartyPants):
         )
 
     def table(self, header, body):
-        return "<table class='table table-hover'>" + header + body + "</table>"
+        return "<table class='table table-bordered table-hover'>" + header + body + "</table>"
 
 markdown_renderer = misaka.Markdown(
     HighlighterRenderer(flags=misaka.HTML_ESCAPE | misaka.HTML_HARD_WRAP | misaka.HTML_SAFELINK),
