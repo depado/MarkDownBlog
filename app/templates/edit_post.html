@@ -1,4 +1,4 @@
-{% from "helpers.html" import render_field %}
+{% from "helpers.html" import render_field, render_content_field %}
 {% extends "blog_base.html" %}
 
 {% block inner_content %}
@@ -8,17 +8,55 @@
             <form method="post" action="">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        Create a new post for your blog.
+                        Edit this post.
                     </div>
                     <div class="panel-body">
                         {{ form.hidden_tag() }}
                         {{ render_field(form.title) }}
-                        {{ render_field(form.content) }}
-                        <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ form._prefix }}btn">Post</button>
+                        {{ render_content_field(form.content) }}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a class="btn btn-lg btn-primary btn-block" id="click-preview" href="#">Preview</a>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ form._prefix }}btn">Post</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="previewmodal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="panel panel-info">
+                    <div class="panel-heading" id="preview_title">
+                        <h4>Loading...</h4>
+                    </div>
+                    <div class="panel-body" id="preview_body">
+                        Loading...
+                    </div>
+                </div>
+                    <div class="alert alert-info" role="alert">This is a preview of your blog post. It has not been submitted yet. If you like the result, close this modal and click on the post button. Depending on your settings, the article may look different on your blog.</div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    $("#click-preview").click(function () {
+        $.ajax({
+            type : "POST",
+            url : "{{ url_for('ajax_markdown_parser') }}",
+            data: JSON.stringify($("#{{form.content.id}}").val(), null, '\t'),
+            contentType: 'application/json',
+            success: function(result) {
+                $('#previewmodal').modal();
+                $('#preview_title').html("<h4>" + $("#{{ form.title.id }}").val() + "</h4>");
+                $("#preview_body").html(result);
+            }
+        });
+        return false;
+    });
+</script>
 {% endblock %}

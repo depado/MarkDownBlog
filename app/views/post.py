@@ -6,6 +6,7 @@ from flask_login import current_user, login_required
 from app import app
 from app.models import Post
 from app.forms import PostForm
+from app.utils import markdown_renderer
 
 
 @app.route('/new', methods=['GET', 'POST'])
@@ -42,7 +43,6 @@ def edit(post_id):
                         return redirect(url_for("blog.get", user_slug=current_user.blog_slug, post_id=post_id))
                     else:
                         flash("Something went wrong...")
-
             return render_template("edit_post.html", form=form)
         else:
             flash("Your are not authorized to do that.")
@@ -66,3 +66,10 @@ def delete(post_id):
             return redirect(url_for('blog.index', user_slug=post.user.blog_slug))
     else:
         return render_template("blog_page_404.html", post_id=post_id)
+
+
+@app.route("/_parse", methods=['POST'])
+def ajax_markdown_parser():
+    return markdown_renderer.render(request.json)
+
+
