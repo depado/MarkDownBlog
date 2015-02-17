@@ -48,7 +48,7 @@ def index(user_slug):
             posts = blog_user.get_page(0)
             current_page = 1
             return render_template("blog_index.html", owner=blog_user == current_user, posts=posts, blog_user=blog_user,
-                                   current_page=current_page, **generate_background_css(blog_user))
+                                   paginate=True, current_page=current_page, **generate_background_css(blog_user))
         else:
             posts = blog_user.posts.order_by(desc(Post.pub_date)).all()
             return render_template("blog_index.html", owner=blog_user == current_user, posts=posts, blog_user=blog_user,

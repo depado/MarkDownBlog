@@ -13,10 +13,12 @@
             {% endfor %}
         </div>
     </div>
+    {% if paginate %}
     <div class="row">
-        <div class="col-md-10 col-md-offset-2" style="display:inline-block;">
+        <div class="col-md-10 col-md-offset-4">
             {{ render_paginator(blog_user, current_page) }}
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
