@@ -48,7 +48,7 @@ class SettingForm(CustomForm):
     )
     blog_paginate_by = IntegerField(
         'Articles per Page',
-        validators=[DataRequired("Even if not using pagination")],
+        validators=[DataRequired("Even if not using pagination put a value here.")],
         description={'placeholder': "Articles per Page"}
     )
 

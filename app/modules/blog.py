@@ -69,7 +69,7 @@ def page(user_slug, page):
                 return redirect(url_for("blog.index", user_slug=user_slug))
             current_page = page
             return render_template("blog_index.html", owner=blog_user == current_user, posts=posts, blog_user=blog_user,
-                                   current_page=current_page, **generate_background_css(blog_user))
+                                   paginate=True, current_page=current_page, **generate_background_css(blog_user))
     else:
         return render_template("blog_404.html", blog_name=utils.escape(user_slug))
 
