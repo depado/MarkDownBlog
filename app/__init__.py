@@ -10,10 +10,12 @@ from flask_login import LoginManager
 from flask_admin import Admin, AdminIndexView, expose
 from flask_misaka import Misaka
 
+# App initialization
 app = Flask(__name__)
 app.config.from_object('config')
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
+# Logging with Rotating File Setup
 handler = RotatingFileHandler(app.config.get('LOG_FILE'), maxBytes=10000, backupCount=5)
 handler.setLevel(logging.DEBUG)
 handler.setFormatter(
@@ -21,14 +23,19 @@ handler.setFormatter(
 )
 app.logger.addHandler(handler)
 
+# Database Setup
 db = SQLAlchemy(app)
+
+# Markdown Processor Setup
 Misaka(app)
 
+# Login Manager Setup
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'index'
+login_manager.session_protection = 'strong'
 
-
+# Administration Setup
 class MyAdminIndexView(AdminIndexView):
     @expose('/')
     def index(self):
@@ -41,6 +48,7 @@ admin = Admin(app, 'We Rate Movies', index_view=MyAdminIndexView())
 
 from app import views, models
 
+# Blueprint Registering
 from app.modules import blog
 app.register_blueprint(blog.blueprint)
 

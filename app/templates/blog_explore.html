@@ -26,7 +26,7 @@
                 <div class="panel-content">
                     <ul class="nav nav-pills nav-stacked">
                     {% for post in latest_posts %}
-                    <li><a href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}" data-toggle="tooltip" data-placement="right" data-container="body" title="{{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by {{ post.user.username | e }}">{{ post.title | e }}</a></li>
+                    <li><a href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_slug=post.title_slug) }}" data-toggle="tooltip" data-placement="right" data-container="body" title="{{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by {{ post.user.username | e }}">{{ post.title | e }}</a></li>
                     {% endfor %}
                     </ul>
                 </div>

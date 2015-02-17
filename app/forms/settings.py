@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from wtforms.fields import StringField, TextAreaField, BooleanField
+from wtforms.fields import StringField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired, Length, URL, Optional
 
 from .base import CustomForm
@@ -43,5 +43,12 @@ class SettingForm(CustomForm):
     blog_bg_override = BooleanField(
         'Blog Background Override'
     )
-
+    blog_paginate = BooleanField(
+        'Activate Pagination'
+    )
+    blog_paginate_by = IntegerField(
+        'Articles per Page',
+        validators=[Optional(), ],
+        description={'placeholder': "Articles per Page"}
+    )
 

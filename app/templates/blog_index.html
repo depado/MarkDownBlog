@@ -1,4 +1,4 @@
-{% from "helpers.html" import render_blog_post, render_blog_profile %}
+{% from "helpers.html" import render_blog_post, render_blog_profile, render_paginator %}
 {% extends "blog_base.html" %}
 
 {% block inner_content %}
@@ -11,6 +11,11 @@
             {% for post in posts %}
                 {{ render_blog_post(post, owner=owner) }}
             {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-2" style="display:inline-block;">
+            {{ render_paginator(blog_user, current_page) }}
         </div>
     </div>
 </div>

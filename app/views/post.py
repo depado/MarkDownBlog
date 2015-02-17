@@ -40,7 +40,7 @@ def edit(post_id):
                     saved = post.save()
                     if saved:
                         flash("Successfully saved the post.")
-                        return redirect(url_for("blog.get", user_slug=current_user.blog_slug, post_id=post_id))
+                        return redirect(url_for("blog.get", user_slug=current_user.blog_slug, post_slug=post.title_slug))
                     else:
                         flash("Something went wrong...")
             return render_template("edit_post.html", form=form)

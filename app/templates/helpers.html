@@ -12,6 +12,15 @@
 </div>
 {% endmacro %}
 
+{% macro render_paired_fields(toggle_field, input_field, global_title) %}
+<div class="form-group {% if input_field.errors %}has-error{% endif %}">
+    <label>{{ global_title }}</label>
+    {% if input_field.errors %}{% for err in input_field.errors %}<br /><label class="control-label">{{ err }}</label>{% endfor %}{% endif %}
+    {{ toggle_field(class="form-control", data_toggle="toggle", data_on="Yes", data_off="No", data_onstyle="success") }}
+    {{ input_field(class="form-control", placeholder=input_field.description.placeholder) }}
+</div>
+{% endmacro %}
+
 {% macro render_content_field(field) %}
 <div class="form-group {% if field.errors %}has-error{% endif %}">
     {% if field.errors %}{% for err in field.errors %}
@@ -25,7 +34,7 @@
 <div class="panel panel-info">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-md-11"><h4>{% if index %}<a href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_id=post.id) }}">{{ post.title | e }}</a>{% else %}{{ post.title | e }}{% endif %}</h4></div>
+            <div class="col-md-11"><h4>{% if index %}<a href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_slug=post.title_slug) }}">{{ post.title | e }}</a>{% else %}{{ post.title | e }}{% endif %}</h4></div>
             <div class="col-md-1">
                 {% if index %}
                 <div class="pull-right">
@@ -81,4 +90,14 @@
         {% endif %}
     </div>
 </div>
+{% endmacro %}
+
+{% macro render_paginator(blog_user, active_page) %}
+<nav>
+    <ul class="pagination">
+        {% for page in blog_user.pages_as_list %}
+            <li {% if active_page == page %}class="active"{% endif %}><a href="{{ url_for('blog.page', user_slug=blog_user.blog_slug, page=page) }}">{{ page }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>
 {% endmacro %}

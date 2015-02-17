@@ -3,11 +3,12 @@
 from datetime import datetime
 
 from slugify import slugify
+from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_admin.contrib.sqla import ModelView
 
-from app.models import AuthMixin
-from app import db, login_manager
+from app.models import AuthMixin, Post
+from app import app, db, login_manager
 
 
 class User(db.Model):
@@ -44,16 +45,23 @@ class User(db.Model):
     register_date = db.Column(db.DateTime())
     last_login = db.Column(db.DateTime())
 
+    # Blog Related Informations
     blog_slug = db.Column(db.String(50), unique=True)
-    blog_title = db.Column(db.String(50))
-    blog_description = db.Column(db.String(200))
+    blog_title = db.Column(db.String(50), default="Untitled Blog")
+    blog_description = db.Column(db.String(200), default="No Description")
+
+    # Blog Images Related
     blog_image = db.Column(db.String(200))
-    blog_image_rounded = db.Column(db.Boolean())
+    blog_image_rounded = db.Column(db.Boolean(), default=False)
     blog_bg = db.Column(db.String(200))
-    blog_bg_public = db.Column(db.Boolean())
-    blog_bg_repeat = db.Column(db.Boolean())
-    blog_bg_everywhere = db.Column(db.Boolean())
-    blog_bg_override = db.Column(db.Boolean())
+    blog_bg_public = db.Column(db.Boolean(), default=False)
+    blog_bg_repeat = db.Column(db.Boolean(), default=False)
+    blog_bg_everywhere = db.Column(db.Boolean(), default=False)
+    blog_bg_override = db.Column(db.Boolean(), default=False)
+
+    # Blog Pagination
+    blog_paginate = db.Column(db.Boolean(), default=False)
+    blog_paginate_by = db.Column(db.Integer(), default=10)
 
     posts = db.relationship('Post', backref='user', lazy='dynamic')
 
@@ -71,25 +79,39 @@ class User(db.Model):
         self.set_password(password)
         self.register_date = now
         self.last_login = now
-
         self.blog_slug = slugify(self.username)
-        self.blog_title = "Untitled Blog"
-        self.blog_description = "No Description"
 
-        self.blog_image = ""
-        self.blog_image_rounded = False
-        self.blog_bg = ""
-        self.blog_bg_public = True
-        self.blog_bg_repeat = False
-        self.blog_bg_everywhere = False
-        self.blog_bg_override = False
+    @property
+    def total_pages(self):
+        """
+        Property that returns the minimum number of pages to display all the articles (posts)
+        :return: int
+        """
+        count = self.posts.count()
+        if count % self.blog_paginate_by == 0:
+            return int(count / self.blog_paginate_by)
+        else:
+            return int(count / self.blog_paginate_by) + 1
+
+    @property
+    def pages_as_list(self):
+        """
+        Returns a list of integers representing the available pages
+        """
+        return list(range(1, self.total_pages + 1))
+
+    def get_page(self, page):
+        if not page < self.total_pages:
+            return None
+        else:
+            return list(self.posts.order_by(desc(Post.pub_date)).all())[self.blog_paginate_by * page: self.blog_paginate_by * (page+1)]
 
     def save(self):
         db.session.add(self)
         try:
             db.session.commit()
         except Exception as e:
-            print(e)
+            app.logger.exception("Something went wrong while saving a user")
             db.session.rollback()
             return False
         return True
@@ -99,6 +121,7 @@ class User(db.Model):
         try:
             db.session.commit()
         except Exception as e:
+            app.logger.exception("Something went wrong while deleting a user")
             db.session.rollback()
             return False
         return True
@@ -127,7 +150,7 @@ class User(db.Model):
     def __repr__(self):
         return self.username
 
-    def __unicode__(self):
+    def __str__(self):
         return self.username
 
 

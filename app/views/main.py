@@ -76,6 +76,8 @@ def settings():
             current_user.blog_bg_everywhere = form.blog_bg_everywhere.data
             current_user.blog_bg_override = form.blog_bg_override.data
             current_user.blog_bg_repeat = form.blog_bg_repeat.data
+            current_user.blog_paginate = form.blog_paginate.data
+            current_user.blog_paginate_by = form.blog_paginate_by.data
             saved = current_user.save()
             if saved:
                 flash("Saved your settings...")
