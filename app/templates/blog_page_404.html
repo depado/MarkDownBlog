@@ -1,8 +1,8 @@
 {% extends "cover.html" %}
 
 {% block inner_content %}
-<h1 class="cover-heading">404 Blog Not Found</h1>
+<h1 class="cover-heading">404 Article Not Found</h1>
 <br />
-<p class="lead">There is no article with the id <b>{{ post_id }}</b>.</p>
+<p class="lead">There is no such article.</p>
 <a href="{{ url_for('index') }}" style="text-decoration: none;">Click <b>here</b> to go back.</a>
 {% endblock %}

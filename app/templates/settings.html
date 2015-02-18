@@ -35,7 +35,7 @@
                         {{ render_field(form.blog_bg_override, toggle=True) }}
                         <hr>
                         <h2>Blog Global Settings</h2>
-                        <span>{{ render_field(form.blog_paginate, toggle=True) }}{{ render_field(form.blog_paginate_by) }}</span>
+                        {{ render_field(form.blog_paginate, toggle=True) }}{{ render_field(form.blog_paginate_by) }}
                         <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ form._prefix }}btn">Save</button>
                     </div>
                 </div>
