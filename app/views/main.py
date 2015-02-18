@@ -78,6 +78,7 @@ def settings():
             current_user.blog_bg_repeat = form.blog_bg_repeat.data
             current_user.blog_paginate = form.blog_paginate.data
             current_user.blog_paginate_by = form.blog_paginate_by.data
+            current_user.blog_public = form.blog_public.data
             saved = current_user.save()
             if saved:
                 flash("Saved your settings...")

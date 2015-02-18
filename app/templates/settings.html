@@ -18,8 +18,9 @@
                         Settings
                     </div>
                     <div class="panel-body">
+                        <span class="pull-right"><a class="btn btn-primary" href="#" onclick="$('.help').toggle(); return false;">Help</a></span>
                         {{ form.hidden_tag() }}
-                        <h2>General Settings</h2>
+                        <h2>Blog Description</h2>
                         {{ render_field(form.blog_title) }}
                         {{ render_field(form.blog_description) }}
                         <hr>
@@ -35,7 +36,9 @@
                         {{ render_field(form.blog_bg_override, toggle=True) }}
                         <hr>
                         <h2>Blog Global Settings</h2>
-                        {{ render_field(form.blog_paginate, toggle=True) }}{{ render_field(form.blog_paginate_by) }}
+                        {{ render_field(form.blog_paginate, toggle=True) }}
+                        {{ render_field(form.blog_paginate_by) }}
+                        {{ render_field(form.blog_public, toggle=True) }}
                         <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ form._prefix }}btn">Save</button>
                     </div>
                 </div>

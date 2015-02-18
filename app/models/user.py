@@ -49,6 +49,7 @@ class User(db.Model):
     blog_slug = db.Column(db.String(50), unique=True)
     blog_title = db.Column(db.String(50), default="Untitled Blog")
     blog_description = db.Column(db.String(200), default="No Description")
+    blog_public = db.Column(db.Boolean(), default=True)
 
     # Blog Images Related
     blog_image = db.Column(db.String(200))

@@ -9,6 +9,7 @@
     {% else %}
         {{ field(class="form-control", placeholder=field.description.placeholder) }}
     {% endif %}
+    {% if field.description.help %}<br /><i class="help" style="display: none;">{{ field.description.help }}</i>{% endif %}
 </div>
 {% endmacro %}
 
