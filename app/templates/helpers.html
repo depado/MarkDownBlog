@@ -1,24 +1,19 @@
 {% macro render_field(field, toggle=False, with_label=True) %}
 <div class="form-group {% if field.errors %}has-error{% endif %}">
-    {% if not toggle and with_label %}<label>{{ field.label }}</label>{% endif %}
+    {% if not toggle and with_label %}
+    <label>{{ field.label }}</label>
+    {% endif %}
     {% if field.errors %}{% for err in field.errors %}
     <br /><label class="control-label">{{ err }}</label>
     {% endfor %}{% endif %}
     {% if toggle %}
-        {{ field(class="form-control", data_toggle="toggle", data_on="Yes", data_off="No", data_onstyle="success") }}&nbsp;&nbsp;{{ field.label }}
+    {{ field(class="form-control", data_toggle="toggle", data_on="Yes", data_off="No", data_onstyle="success") }}&nbsp;&nbsp;{{ field.label }}
     {% else %}
-        {{ field(class="form-control", placeholder=field.description.placeholder) }}
+    {{ field(class="form-control", placeholder=field.description.placeholder) }}
     {% endif %}
-    {% if field.description.help %}<br /><i class="help" style="display: none;">{{ field.description.help }}</i>{% endif %}
-</div>
-{% endmacro %}
-
-{% macro render_paired_fields(toggle_field, input_field, global_title) %}
-<div class="form-group {% if input_field.errors %}has-error{% endif %}">
-    <label>{{ global_title }}</label>
-    {% if input_field.errors %}{% for err in input_field.errors %}<br /><label class="control-label">{{ err }}</label>{% endfor %}{% endif %}
-    {{ toggle_field(class="form-control", data_toggle="toggle", data_on="Yes", data_off="No", data_onstyle="success") }}
-    {{ input_field(class="form-control", placeholder=input_field.description.placeholder) }}
+    {% if field.description.help %}
+    <br /><i class="help" style="display: none;">{{ field.description.help }}</i>
+    {% endif %}
 </div>
 {% endmacro %}
 

@@ -24,11 +24,14 @@
 </div>
 
 <div id="login-div">
-    <form class="form-signin" method="post" action="">
+    <!-- HTML5 does not allow action="" -->
+    <form class="form-signin" method="post">
         {{ login_form.hidden_tag() }}
         {{ render_field(login_form.username, with_label=False) }}
         {{ render_field(login_form.password, with_label=False) }}
-        <span class="pull-left">{{ render_field(login_form.rememberme, toggle=True) }}</span>
+        <div class="pull-left">
+            {{ render_field(login_form.rememberme, toggle=True) }}
+        </div>
         <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ login_form._prefix }}btn">Sign in</button>
     </form>
     <a href="#" class="open-registration-div" style="text-decoration: none;">
@@ -41,7 +44,7 @@
 </div>
 
 <div id="registration-div">
-    <form class="form-signin" method="post" action="">
+    <form class="form-signin" method="post">
         {{ register_form.hidden_tag() }}
         {{ render_field(register_form.username, with_label=False) }}
         {{ render_field(register_form.password, with_label=False) }}

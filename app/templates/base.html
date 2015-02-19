@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MarkDownBlog</title>
+    <meta name="description" content="A simple blogging platform that uses the markdown format to write articles.">
+    <meta name="keywords" content="markdown, blog, blogging, platform, plateforme, markdownblog, technical, code, codin, syntax, highlight">
 
+    <!-- Favicon Stuff (404 For now) -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
+    <!-- CSS Files -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/messenger.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/messenger-theme-ice.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/sweet-alert.css') }}" rel="stylesheet">
-      <link href="{{ url_for('static', filename='css/monokai.css') }}" rel="stylesheet">
+    <!-- To be included automatically depending on the theme chosen by the user -->
+    <link href="{{ url_for('static', filename='css/monokai.css') }}" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     {% block extra_css_resources %}{% endblock %}
     {% block extra_style %}{% endblock %}
@@ -37,14 +42,14 @@
             hyphens: auto;
         }
     </style>
+    <!-- JS Files -->
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/messenger.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/sweet-alert.min.js') }}"></script>
     {% block extrajs %}{% endblock %}
-
-  </head>
-  <body>
+</head>
+<body>
     {% block content %}{% endblock %}
     <script type="text/javascript">
         Messenger.options = {
@@ -72,7 +77,6 @@
               location.href=url;
             });
         }
-	
         var _paq = _paq || [];
         _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
         _paq.push(["setCookieDomain", "*.markdownblog.com"]);
@@ -92,5 +96,5 @@
     </script>
     <noscript><p><img src="//analytics.depado.eu/my.php?idsite=4" style="border:0;" alt="" /></p></noscript>
     {% block extra_js_at_end %}{% endblock %}
-  </body>
+</body>
 </html>

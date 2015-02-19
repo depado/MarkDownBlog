@@ -15,6 +15,9 @@ app = Flask(__name__)
 app.config.from_object('config')
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
+# Jinja2 Setup
+app.jinja_env.trim_blocks = True
+
 # Logging with Rotating File Setup
 handler = RotatingFileHandler(app.config.get('LOG_FILE'), maxBytes=10000, backupCount=5)
 handler.setLevel(logging.DEBUG)
