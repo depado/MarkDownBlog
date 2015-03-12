@@ -2,7 +2,9 @@
 
 from datetime import datetime
 from slugify import slugify
+from bs4 import BeautifulSoup
 
+from flask import url_for
 from app import app, db
 from app.utils import markdown_renderer
 
@@ -45,4 +47,15 @@ class Post(db.Model):
         return True
 
     def content_as_html(self):
-        return markdown_renderer.render(self.content)
+        if self.user.blog_truncate_posts:
+            content = markdown_renderer.render(self.content)
+            try:
+                truncated = content[:300 + content[300:].index(" ")]
+                truncate_end = " [...]<br / ><a href='{url}'>Click here to read the full article</a>".format(
+                    url=url_for('blog.get', user_slug=self.user.blog_slug, post_slug=self.title_slug)
+                )
+                return BeautifulSoup(truncated + truncate_end)
+            except Exception as e:
+                return content
+        else:
+            return markdown_renderer.render(self.content)

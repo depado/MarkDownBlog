@@ -5,7 +5,7 @@ from flask_login import current_user
 from sqlalchemy import desc
 
 from . import blueprint
-from .utils import requested_blog_user, generate_background_css, blog_exists
+from .utils import requested_blog_user, generate_background_css, blog_exists, generate_syntax_highlighter_css
 from app.models import Post
 
 
@@ -17,10 +17,12 @@ def index(user_slug):
         posts = blog_user.get_page(0)
         current_page = 1
         return render_template("blog_index.html", owner=blog_user == current_user, posts=posts, blog_user=blog_user,
+                               syntax_highlighter_css=generate_syntax_highlighter_css(blog_user),
                                paginate=True, current_page=current_page, **generate_background_css(blog_user))
     else:
         posts = blog_user.posts.order_by(desc(Post.pub_date)).all()
         return render_template("blog_index.html", owner=blog_user == current_user, posts=posts, blog_user=blog_user,
+                               syntax_highlighter_css=generate_syntax_highlighter_css(blog_user),
                                **generate_background_css(blog_user))
 
 
@@ -36,7 +38,9 @@ def page(user_slug, page):
             return redirect(url_for("blog.index", user_slug=user_slug))
         current_page = page
         return render_template("blog_index.html", owner=blog_user == current_user, posts=posts, blog_user=blog_user,
-                               paginate=True, current_page=current_page, **generate_background_css(blog_user))
+                               paginate=True, current_page=current_page,
+                               syntax_highlighter_css=generate_syntax_highlighter_css(blog_user),
+                               **generate_background_css(blog_user))
 
 
 @blueprint.route("/<post_slug>")
@@ -46,6 +50,7 @@ def get(user_slug, post_slug):
     post = Post.query.filter_by(title_slug=post_slug).first()
     if post is not None:
         return render_template("blog_page.html", post=post, owner=blog_user == current_user, blog_user=blog_user,
+                               syntax_highlighter_css=generate_syntax_highlighter_css(blog_user),
                                **generate_background_css(blog_user))
     else:
         return render_template("blog_page_404.html")

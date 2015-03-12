@@ -17,7 +17,9 @@
     <link href="{{ url_for('static', filename='css/messenger-theme-ice.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/sweet-alert.css') }}" rel="stylesheet">
     <!-- To be included automatically depending on the theme chosen by the user -->
-    <link href="{{ url_for('static', filename='css/monokai.css') }}" rel="stylesheet">
+    {% if syntax_highlighter_css %}
+    <link href="{{ syntax_highlighter_css | safe }}" rel="stylesheet">
+    {% endif %}
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     {% block extra_css_resources %}{% endblock %}
     {% block extra_style %}{% endblock %}

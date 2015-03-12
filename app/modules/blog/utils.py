@@ -44,6 +44,11 @@ def generate_background_css(blog_user=None):
     return dict(background_css=background_css, background_cover=background_cover)
 
 
+def generate_syntax_highlighter_css(blog_user=None):
+    if blog_user:
+        return url_for("static", filename="css/syntax/{}".format(blog_user.blog_syntax_highlighter_css))
+
+
 def blog_exists(f):
     @functools.wraps(f)
     def decorated_function(*args, **kwargs):

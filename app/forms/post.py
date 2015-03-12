@@ -13,7 +13,7 @@ from .base import CustomForm
 from app.models import Post
 
 
-class PostForm(CustomForm):
+class NewPostForm(CustomForm):
     title = StringField('Title', validators=[DataRequired(), Length(min=5)], description={'placeholder': "Title"})
     content = TextAreaField('Post', validators=[DataRequired()], description={'placeholder': "Content (MarkDown)"})
 
@@ -23,3 +23,10 @@ class PostForm(CustomForm):
             raise ValidationError("You already posted an article with the same title today. "
                                   "(To prevent spam and inaccessible articles, you can't do that.)")
 
+
+class EditPostForm(CustomForm):
+    """
+    The Edition form. Disable the field validation to perform it manually on the instance.
+    """
+    title = StringField('Title', validators=[DataRequired(), Length(min=5)], description={'placeholder': "Title"})
+    content = TextAreaField('Post', validators=[DataRequired()], description={'placeholder': "Content (MarkDown)"})

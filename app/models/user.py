@@ -10,6 +10,13 @@ from flask_admin.contrib.sqla import ModelView
 from app.models import AuthMixin, Post
 from app import app, db, login_manager
 
+SYNTAX_HIGHLIGHTER_CHOICES = [
+    'autumn.css', 'borland.css', 'bw.css', 'colorful.css', 'default.css', 'emacs.css', 'friendly.css', 'fruity.css',
+    'github.css', 'manni.css', 'monokai.css', 'murphy.css', 'native.css', 'pastie.css', 'perldoc.css', 'tango.css',
+    'trac.css', 'vim.css', 'vs.css', 'zenburn.css'
+]
+SYNTAX_HIGHLIGHTER_TUPLE = [(raw, raw.capitalize()[:-4]) for raw in SYNTAX_HIGHLIGHTER_CHOICES]
+
 
 class User(db.Model):
     """
@@ -63,6 +70,10 @@ class User(db.Model):
     # Blog Pagination
     blog_paginate = db.Column(db.Boolean(), default=False)
     blog_paginate_by = db.Column(db.Integer(), default=10)
+
+    # Blog Visual
+    blog_truncate_posts = db.Column(db.Boolean(), default=False)
+    blog_syntax_highlighter_css = db.Column(db.Enum(*SYNTAX_HIGHLIGHTER_CHOICES), default='monokai.css')
 
     posts = db.relationship('Post', backref='user', lazy='dynamic')
 

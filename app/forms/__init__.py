@@ -2,5 +2,5 @@
 
 from .login import LoginForm
 from .register import RegisterForm
-from .post import PostForm
+from .post import NewPostForm, EditPostForm
 from .settings import SettingForm

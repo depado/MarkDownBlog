@@ -79,6 +79,8 @@ def settings():
             current_user.blog_paginate = form.blog_paginate.data
             current_user.blog_paginate_by = form.blog_paginate_by.data
             current_user.blog_public = form.blog_public.data
+            current_user.blog_truncate_posts = form.blog_truncate_posts.data
+            current_user.blog_syntax_highlighter_css = form.blog_syntax_highlighter_css.data
             saved = current_user.save()
             if saved:
                 flash("Saved your settings...")

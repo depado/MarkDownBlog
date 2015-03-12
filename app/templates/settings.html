@@ -39,6 +39,8 @@
                         {{ render_field(form.blog_paginate, toggle=True) }}
                         {{ render_field(form.blog_paginate_by) }}
                         {{ render_field(form.blog_public, toggle=True) }}
+                        {{ render_field(form.blog_truncate_posts, toggle=True) }}
+                        {{ render_field(form.blog_syntax_highlighter_css) }}
                         <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ form._prefix }}btn">Save</button>
                     </div>
                 </div>

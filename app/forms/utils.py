@@ -2,8 +2,13 @@
 
 import requests
 import imghdr
+from datetime import datetime
+from slugify import slugify
 
 from wtforms import ValidationError
+from flask_login import current_user
+
+from app.models import Post
 
 
 class ImageUrl(object):
@@ -18,3 +23,13 @@ class ImageUrl(object):
                 raise ValidationError("URL is not accessible")
         except:
             raise ValidationError("The url or the image it points to is invalid")
+
+
+def validate_post_title(title):
+    """
+    Returns whether a title is valid or not.
+    :param title: The title of the post
+    :return: Boolean
+    """
+    slugged = slugify("{date}-{title}".format(date=str(datetime.utcnow().date()), title=title))
+    return Post.query.filter_by(user=current_user, title_slug=slugged).first() is None

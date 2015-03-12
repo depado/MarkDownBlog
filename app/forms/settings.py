@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from wtforms.fields import StringField, TextAreaField, BooleanField, IntegerField
+from wtforms.fields import StringField, TextAreaField, BooleanField, IntegerField, SelectField
 from wtforms.validators import DataRequired, Length, URL, Optional
 
 from .base import CustomForm
 from .utils import ImageUrl
+from app.models.user import SYNTAX_HIGHLIGHTER_TUPLE
 
 
 class SettingForm(CustomForm):
@@ -74,5 +75,18 @@ class SettingForm(CustomForm):
         'Articles per Page',
         validators=[DataRequired("Even if not using pagination put a value here.")],
         description={'placeholder': "Articles per Page"}
+    )
+    blog_truncate_posts = BooleanField(
+        'Truncate Articles',
+        description={
+            'help': "Would you like your articles to be truncated on the article list ?"
+        }
+    )
+    blog_syntax_highlighter_css = SelectField(
+        "Syntax Highlighter Theme",
+        choices=SYNTAX_HIGHLIGHTER_TUPLE,
+        description={
+            'help': "Which them would you like to apply to your syntax highlighted code ?"
+        }
     )
 
