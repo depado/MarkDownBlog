@@ -4,15 +4,16 @@
     <label>{{ field.label }}</label>
     {% endif %}
     {% if field.errors %}{% for err in field.errors %}
-    <br /><label class="control-label">{{ err }}</label>
+    <br/><label class="control-label">{{ err }}</label>
     {% endfor %}{% endif %}
     {% if toggle %}
-    {{ field(class="form-control", data_toggle="toggle", data_on="Yes", data_off="No", data_onstyle="success") }}&nbsp;&nbsp;{{ field.label }}
+    {{ field(class="form-control", data_toggle="toggle", data_on="Yes", data_off="No", data_onstyle="success") }}&nbsp;&nbsp;{{
+    field.label }}
     {% else %}
     {{ field(class="form-control", placeholder=field.description.placeholder) }}
     {% endif %}
     {% if field.description.help %}
-    <br /><i class="help" style="display: none;">{{ field.description.help }}</i>
+    <br/><i class="help" style="display: none;">{{ field.description.help }}</i>
     {% endif %}
 </div>
 {% endmacro %}
@@ -30,16 +31,21 @@
 <div class="panel panel-info">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-md-11"><h4>{% if index %}<a href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_slug=post.title_slug) }}">{{ post.title | e }}</a>{% else %}{{ post.title | e }}{% endif %}</h4></div>
+            <div class="col-md-11"><h4>{% if index %}<a
+                    href="{{ url_for('blog.get', user_slug=post.user.blog_slug, post_slug=post.title_slug) }}">{{
+                post.title | e }}</a>{% else %}{{ post.title | e }}{% endif %}</h4></div>
             <div class="col-md-1">
                 {% if index %}
                 <div class="pull-right">
-                    <a href="#" onclick="toggle_raw('{{ post.id }}'); return false;" data-toggle="tooltip" data-placement="left" data-container="body" title="Toggle Raw Markdown"><i class="fa fa-eye"></i></a>
+                    <a href="#" onclick="toggle_raw('{{ post.id }}'); return false;" data-toggle="tooltip"
+                       data-placement="left" data-container="body" title="Toggle Raw Markdown"><i class="fa fa-eye"></i></a>
                 </div>
-                <br />
+                <br/>
                 {% else %}
-                <a href="#" class="pull-right" onclick="toggle_raw('{{ post.id }}'); return false;" data-toggle="tooltip" data-placement="left" data-container="body" title="Toggle Raw Markdown"><i class="fa fa-eye"></i></a>
-                <br />
+                <a href="#" class="pull-right" onclick="toggle_raw('{{ post.id }}'); return false;"
+                   data-toggle="tooltip" data-placement="left" data-container="body" title="Toggle Raw Markdown"><i
+                        class="fa fa-eye"></i></a>
+                <br/>
                 {% endif %}
                 {% if owner %}
                 <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown" aria-expanded="false">
@@ -48,12 +54,14 @@
                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
                     <li><a href="{{ url_for('edit', post_id=post.id) }}"><i class="fa fa-pencil"></i> Edit</a></li>
                     <li role="presentation" class="divider"></li>
-                    <li><a href="#" onclick="swal_delete('{{ url_for('delete', post_id=post.id) }}'); return false;"><i class="fa fa-trash"></i> Delete</a></li>
+                    <li><a href="#" onclick="swal_delete('{{ url_for('delete', post_id=post.id) }}'); return false;"><i
+                            class="fa fa-trash"></i> Delete</a></li>
                 </ul>
                 {% endif %}
             </div>
         </div>
-        {{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by <a href="{{ url_for('blog.index', user_slug=post.user.blog_slug) }}">{{ post.user.username | e }}</a>
+        {{ post.pub_date.strftime('%d-%m-%Y %H:%M') }} by <a
+            href="{{ url_for('blog.index', user_slug=post.user.blog_slug) }}">{{ post.user.username | e }}</a>
     </div>
     <div class="panel-body" id="post-{{ post.id }}">
         <div id="post-parsed-{{ post.id }}">
@@ -73,15 +81,17 @@
         <a href="{{ url_for('settings') }}" class="pull-right"><i class="fa fa-pencil"></i></a>
         {% endif %}
         {% if user.blog_image %}
-        <img src="{{ user.blog_image }}" alt="avatar" class="{% if user.blog_image_rounded %}img-circle{% endif %} img-responsive">
+        <img src="{{ user.blog_image }}" alt="avatar"
+             class="{% if user.blog_image_rounded %}img-circle{% endif %} img-responsive">
         {% else %}
         No Picture
         {% endif %}
     </div>
     <div class="panel-footer">
         <h4><a href="{{ url_for('blog.index', user_slug=user.blog_slug) }}">{{ user.blog_title | e }}</a></h4>
+
         <p>{{ user.blog_description | e }}</p>
-        <a href="{{ url_for('blog.rss_feed', user_slug=user.blog_slug) }}">Rss Feed <i class="fa fa-rss"></i></a><br />
+        <a href="{{ url_for('blog.rss_feed', user_slug=user.blog_slug) }}">Rss Feed <i class="fa fa-rss"></i></a><br/>
         {% if owner %}
         <a href="{{ url_for('new') }}" class="btn btn-primary btn-block">Write a New Article</a>
         {% endif %}
@@ -93,8 +103,122 @@
 <nav>
     <ul class="pagination">
         {% for page in blog_user.pages_as_list %}
-            <li {% if active_page == page %}class="active"{% endif %}><a href="{{ url_for('blog.page', user_slug=blog_user.blog_slug, page=page) }}">{{ page }}</a></li>
+        <li {% if active_page== page %}class="active" {% endif %}><a
+                href="{{ url_for('blog.page', user_slug=blog_user.blog_slug, page=page) }}">{{ page }}</a></li>
         {% endfor %}
     </ul>
 </nav>
+{% endmacro %}
+
+{% macro md_help() %}
+<a href="#" class="btn btn-info" id="opener" data-toggle="modal" data-target="#myModal">
+    <i class=" glyphicon glyphicon-question-sign"></i>
+</a>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">How to write Markdown Articles ?</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Syntax Highlighting</h3>
+                <pre>
+```python
+#!/bin/env python
+print("Ok")
+```</pre>
+                <p>The three ticks are used to fence your code. You can define the language used right next to the first
+                    three ticks. The above code would render as follows :</p>
+
+                <div class="code-highlight">
+                    <div class="highlight">
+                        <pre>
+<span class="c">#!/bin/env python</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Ok"</span><span class="p">)</span></pre>
+                    </div>
+                </div>
+                <hr/>
+                <h3>Titles, subtitles and text formatting</h3>
+                <pre>
+My Amazing Title
+================</pre>
+                <p>This will produce a head title. When writing a title like that, you should always leave a blank
+                    line under this line. This rule also applies to the fenced code and the subtitle. The above markdown
+                    is the equivalent of an h1 title in HTML.</p>
+                <pre>
+My Amazing Subtitle
+-------------------</pre>
+                <p>This is how you create a subtitle. It will be smaller than the head title and is equivalent of an
+                    h2 title in HTML.</p>
+                <pre>
+*this text is italic !*</pre>
+                <p>This simple star around a text is used to make it italic <i>like this</i>.</p>
+                <pre>
+**this text is bold !**</pre>
+                <p>The double star is used to put a text in bold <b>like this</b>.</p>
+                <pre>
+_this text is underlined_</pre>
+                <p>Use the simple carret to diplay your text as underline, <u>like this</u>.</p>
+                <pre>
+~~this text is striked-through~~</pre>
+                <p>Use the double tilde (that weird symbol ~) to show your text as striked through.</p>
+                <hr/>
+                <h3>Links and Images</h3>
+                <pre>
+![Amazing Wow Doge](http://a.deviantart.net/avatars/d/o/dogeoffical.gif)</pre>
+                <pre>![Description](Url of the image)</pre>
+                <p>To display an image, you should use this syntax. It will render your image like this :</p>
+                <img src="http://a.deviantart.net/avatars/d/o/dogeoffical.gif" alt="enter image description here"
+                     title="">
+                <pre>
+[Amazing Wow Doge](http://a.deviantart.net/avatars/d/o/dogeoffical.gif)</pre>
+                <pre>[Description](Url)</pre>
+                <p>If you remove the exclamation mark in front of the image, it becomes a clickable link. This format
+                    isn't limited to image only, you can put here whatever url you want. This will render the link like
+                    this :</p>
+                <a href="http://a.deviantart.net/avatars/d/o/dogeoffical.gif" target="_blank">Amazing Wow Doge</a>
+                <hr/>
+                <h3>Arrays</h3>
+                <pre>
+| Title            | Category       | Rating |
+|------------------|----------------|--------|
+| The Walking Dead | Horror         | 10/10  |
+| Breaking Bad     | Drama - Comedy | 10/10  |</pre>
+                <p>This is how you declare an array. It would render like this for example :</p>
+                <table class="table table-bordered table-hover">
+                    <tbody>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Rating</th>
+                    </tr>
+                    <tr>
+                        <td>The Walking Dead</td>
+                        <td>Horror</td>
+                        <td>10/10</td>
+                    </tr>
+                    <tr>
+                        <td>Breaking Bad</td>
+                        <td>Drama - Comedy</td>
+                        <td>10/10</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p>Note that the sizes of the columns doesn't matter as long as the data matches. For example this
+                array could have been set this way :</p>
+                <pre>
+| Title | Category | Rating |
+|-------|----------|--------|
+| The Walking Dead | Horror | 10/10 |
+| Breaking Bad | Drama - Comedy | 10/10 |</pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endmacro %}

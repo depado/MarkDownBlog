@@ -8,6 +8,7 @@ from app.models import Post
 from app.forms import NewPostForm, EditPostForm
 from app.forms.utils import validate_post_title
 from app.utils import markdown_renderer
+from app.modules.blog.utils import generate_syntax_highlighter_css
 
 
 @app.route('/new', methods=['GET', 'POST'])
@@ -24,7 +25,8 @@ def new():
             else:
                 flash("Something went wrong...", category="error")
 
-    return render_template("new_post.html", form=form)
+    return render_template("new_post.html", form=form,
+                           syntax_highlighter_css=generate_syntax_highlighter_css(current_user))
 
 
 @app.route('/edit/<int:post_id>', methods=['GET', 'POST'])
@@ -49,7 +51,8 @@ def edit(post_id):
                 else:
                     flash("Something went wrong...")
 
-            return render_template("edit_post.html", form=form)
+            return render_template("edit_post.html", form=form,
+                                   syntax_highlighter_css=generate_syntax_highlighter_css(current_user))
         else:
             # The user trying to edit is not the actual owner
             flash("Your are not authorized to do that.")

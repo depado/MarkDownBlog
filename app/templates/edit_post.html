@@ -1,9 +1,10 @@
-{% from "helpers.html" import render_field, render_content_field %}
+{% from "helpers.html" import render_field, render_content_field, md_help %}
 {% extends "blog_base.html" %}
 
 {% block inner_content %}
 <div class="container-fluid">
     <div class="row">
+        {{ md_help() }}
         <div class="col-md-10 col-md-offset-1">
             <form method="post" action="">
                 <div class="panel panel-info">

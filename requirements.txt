@@ -1,4 +1,5 @@
 alembic==0.7.4
+beautifulsoup4==4.3.2
 Flask==0.10.1
 Flask-Admin==1.0.9
 Flask-HTTPAuth==2.3.0
@@ -15,6 +16,7 @@ Jinja2==2.7.3
 Mako==1.0.1
 MarkupSafe==0.23
 misaka==1.0.2
+pycrypto==2.6.1
 Pygments==2.0.2
 python-slugify==0.1.0
 requests==2.5.1
