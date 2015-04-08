@@ -60,6 +60,6 @@ manage.py
 gunicorn.py
 config.py
 database
-.idea
+.idea/
 
 

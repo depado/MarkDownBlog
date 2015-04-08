@@ -1,0 +1,23 @@
+# -*- coding: utf-8 -*-
+
+from flask_script import Manager, Shell
+from flask_migrate import Migrate, MigrateCommand
+
+from app import app, db
+from app.models import User
+
+manager = Manager(app)
+
+migrate = Migrate(app, db)
+manager.add_command('db', MigrateCommand)
+
+@manager.command
+def create_db():
+    db.create_all()
+    user = User(username='Root', password='root', active=True, superuser=True)
+    user.save()
+
+manager.add_command('shell', Shell())
+
+if __name__ == '__main__':
+    manager.run()
