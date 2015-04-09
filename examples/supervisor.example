@@ -1,0 +1,9 @@
+[program:markdownblog]
+directory=/path/to/MarkDownBlog/
+command=/path/to/MarkDownBlog/env/bin/python /path/to/MarkDownBlog/env/bin/gunicorn app:app -c /path/to/MarkDownBlog/gunicorn.py
+user=www-data
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/log/supervisor/markdownblog_stdout.log
+stderr_logfile=/var/log/supervisor/markdownblog_stderr.log

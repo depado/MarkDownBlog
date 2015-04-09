@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+
+import multiprocessing
+
+bind = "127.0.0.1:8085"
+pidfile = "/var/log/gunicorn/markdownblog.pid"
+workers = multiprocessing.cpu_count() * 2 + 1
+accesslog = "/var/log/gunicorn/markdownblog_access.log"
+errorlog = "/var/log/gunicorn/markdownblog_error.log"
+loglevel = "debug"
