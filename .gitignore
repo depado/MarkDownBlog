@@ -61,5 +61,6 @@ gunicorn.py
 config.py
 database
 .idea/
+log/
 
 

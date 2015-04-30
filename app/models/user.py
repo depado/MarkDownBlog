@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-
 from slugify import slugify
 from sqlalchemy import desc
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import SignatureExpired, BadSignature
 from werkzeug.security import generate_password_hash, check_password_hash
+
 from flask_admin.contrib.sqla import ModelView
 
 from app.models import AuthMixin, Post
@@ -77,18 +79,16 @@ class User(db.Model):
 
     posts = db.relationship('Post', backref='user', lazy='dynamic')
 
-    def __init__(self, username, password, active=True, superuser=False):
+    def __init__(self, active=True, superuser=False, **kwargs):
         """
         :param username: The username of the user, will become the blog subdomain once slugified.
         :param password: The raw password to be encrypted and stored.
         :param active: To change once postfix is setup and app can send mails.
         :param superuser: Set if the user is a superuser (currently no use for that)
         """
+        super(User, self).__init__(active=active, superuser=superuser, **kwargs)
         now = datetime.utcnow()
-        self.username = username
-        self.superuser = superuser
-        self.active = active
-        self.set_password(password)
+        self.set_password(self.password)
         self.register_date = now
         self.last_login = now
         self.blog_slug = slugify(self.username)
@@ -158,6 +158,22 @@ class User(db.Model):
 
     def get_id(self):
         return self.id
+
+    def generate_auth_token(self, expiration=6000):
+        s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
+        return s.dumps({'id': self.id})
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None
+        except BadSignature:
+            return None
+        user = User.query.get(data['id'])
+        return user
 
     def __repr__(self):
         return self.username

@@ -5,6 +5,8 @@ from slugify import slugify
 from bs4 import BeautifulSoup
 
 from flask import url_for
+from flask_login import current_user
+
 from app import app, db
 from app.utils import markdown_renderer
 
@@ -18,15 +20,12 @@ class Post(db.Model):
     
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, user, title, content, pub_date=None):
-        self.user = user
-        self.title = title
-        self.title_slug = slugify(title)
-        self.content = content
-        self.pub_date = pub_date if pub_date is not None else datetime.utcnow()
+    def __init__(self, **kwargs):
+        super(Post, self).__init__(**kwargs)
+        self.pub_date = self.pub_date if self.pub_date is not None else datetime.utcnow()
+        self.title_slug = slugify("{date}-{title}".format(date=str(self.pub_date.date()), title=self.title))
 
     def save(self):
-        self.title_slug = slugify("{date}-{title}".format(date=str(self.pub_date.date()), title=self.title))
         db.session.add(self)
         try:
             db.session.commit()
@@ -35,6 +34,9 @@ class Post(db.Model):
             db.session.rollback()
             return False
         return True
+
+    def owner(self):
+        return current_user == self.user
 
     def delete(self):
         db.session.delete(self)
