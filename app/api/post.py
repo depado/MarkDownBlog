@@ -15,6 +15,8 @@ class PostSchema(Schema):
     id = fields.Integer()
     title = fields.String()
     content = fields.String()
+    title_slug = fields.String()
+    pub_date = fields.Date()
     user = fields.Nested(UserSchema)
 
     def make_object(self, data):

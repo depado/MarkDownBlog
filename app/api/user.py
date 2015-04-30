@@ -9,6 +9,12 @@ from app.models import User
 class UserSchema(Schema):
     id = fields.Integer()
     username = fields.String()
+    blog_slug = fields.String()
+    blog_image = fields.String()
+    blog_title = fields.String()
+    blog_description = fields.String()
+    blog_bg = fields.String()
+    blog_public = fields.String()
 
     def make_object(self, data):
         return User(**data)
