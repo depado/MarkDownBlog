@@ -27,9 +27,20 @@ def user_serializer(instance):
 def user_deserializer(data):
     return UserSchema().load(data).data
 
+
+def get_many_postprocessor(result=None, search_params=None, **kw):
+    if result:
+        for user in result['objects']:
+            new = user_serializer(user_deserializer(user))
+            user.clear()
+            user.update(new)
+
 manager.create_api(
     User,
     methods=['GET', ],
+    postprocessors=dict(
+        GET_MANY=[get_many_postprocessor,],
+    ),
     url_prefix="/api/v1",
     serializer=user_serializer,
     deserializer=user_deserializer
