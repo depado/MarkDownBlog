@@ -1,0 +1,69 @@
+.my-fa-facebook:before {
+  content: "\f09a";
+}
+.my-fa-facebook-square:before {
+  content: "\f082";
+}
+.my-fa-flickr:before {
+  content: "\f16e";
+}
+.my-fa-google-plus-square:before {
+  content: "\f0d4";
+}
+.my-fa-google-plus:before {
+  content: "\f0d5";
+}
+.my-fa-google:before {
+  content: "\f1a0";
+}
+.my-fa-instagram:before {
+  content: "\f16d";
+} 
+.my-fa-linkedin:before {
+  content: "\f0e1";
+} 
+.my-fa-linkedin-square:before {
+  content: "\f08c";
+} 
+.my-fa-pinterest:before {
+  content: "\f0d2";
+} 
+.my-fa-pinterest-square:before {
+  content: "\f0d3";
+}
+.my-fa-reddit:before {
+  content: "\f1a1";
+}
+.my-fa-reddit-square:before {
+  content: "\f1a2";
+}
+.my-fa-share-square-o:before {
+  content: "\f045";
+}
+.my-fa-share-alt:before {
+  content: "\f1e0";
+}
+.my-fa-soundcloud:before {
+  content: "\f1be";
+}
+.my-fa-tumblr:before {
+  content: "\f173";
+}
+.my-fa-tumblr-square:before {
+  content: "\f174";
+}
+.my-fa-twitter-square:before {
+  content: "\f081";
+}
+.my-fa-twitter:before {
+  content: "\f099";
+}
+.my-fa-youtube-square:before {
+  content: "\f166";
+}
+.my-fa-youtube:before {
+  content: "\f167";
+}
+.my-fa-youtube-play:before {
+  content: "\f16a";
+}

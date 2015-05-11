@@ -9,7 +9,7 @@
     <meta name="keywords" content="markdown, blog, blogging, platform, plateforme, markdownblog, technical, code, codin, syntax, highlight">
 
     <!-- Favicon Stuff (404 For now) -->
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.gif') }}">
 
     <!-- CSS Files -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
@@ -21,7 +21,9 @@
     {% if syntax_highlighter_css %}
     <link href="{{ syntax_highlighter_css | safe }}" rel="stylesheet">
     {% endif %}
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href="{{ url_for('static', filename='css/bootstrap-social.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/fix.css') }}" rel="stylesheet">
     {% block extra_css_resources %}{% endblock %}
     {% block extra_style %}{% endblock %}
     <style type="text/css">

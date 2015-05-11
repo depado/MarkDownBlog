@@ -53,6 +53,10 @@ class User(db.Model):
     active = db.Column(db.Boolean())
     register_date = db.Column(db.DateTime())
     last_login = db.Column(db.DateTime())
+    linkedin_url = db.Column(db.String(200), default="")
+    gplus_url = db.Column(db.String(200), default="")
+    github_url = db.Column(db.String(200), default="")
+    twitter_url = db.Column(db.String(200), default="")
 
     # Blog Related Informations
     blog_slug = db.Column(db.String(50), unique=True)

@@ -89,4 +89,23 @@ class SettingForm(CustomForm):
             'help': "Which them would you like to apply to your syntax highlighted code ?"
         }
     )
-
+    linkedin_url = StringField(
+        'LinkedIn Profile URL',
+        validators=[Optional(), URL(), Length(min=5, max=200)],
+        description={'placeholder': "LinkedIn Profile URL"}
+    )
+    gplus_url = StringField(
+        'Google Plus Profile URL',
+        validators=[Optional(), URL(), Length(min=5, max=200)],
+        description={'placeholder': "Google Plus Profile URL"}
+    )
+    github_url = StringField(
+        'GitHub Profile URL',
+        validators=[Optional(), URL(), Length(min=5, max=200)],
+        description={'placeholder': "GitHub Profile URL"}
+    )
+    twitter_url = StringField(
+        'Twitter Profile URL',
+        validators=[Optional(), URL(), Length(min=5, max=200)],
+        description={'placeholder': "Twitter Profile URL"}
+    )

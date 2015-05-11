@@ -9,9 +9,16 @@ from app.models import User, Post
 
 def explore_context():
     latest_users = User.query.order_by(desc(User.register_date)).limit(10).all()
-    latest_posts = Post.query.join(User).filter(User.blog_public).order_by(desc(Post.pub_date)).limit(10).all()
-    return dict(latest_posts=latest_posts, latest_users=latest_users)
+    posts = Post.query.join(User).filter(User.blog_public).order_by(desc(Post.pub_date)).limit(10).all()
+    return dict(posts=posts, latest_users=latest_users)
+
 
 @app.route("/explore")
 def explore():
     return render_template("blog_explore.html", **explore_context())
+
+
+@app.route("/all")
+def explore_all():
+    posts = Post.query.join(User).filter(User.blog_public).order_by(desc(Post.pub_date)).all()
+    return render_template("blog_explore_all.html", posts=posts)

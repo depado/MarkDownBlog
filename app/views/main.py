@@ -81,6 +81,10 @@ def settings():
             current_user.blog_public = form.blog_public.data
             current_user.blog_truncate_posts = form.blog_truncate_posts.data
             current_user.blog_syntax_highlighter_css = form.blog_syntax_highlighter_css.data
+            current_user.linkedin_url = form.linkedin_url.data
+            current_user.gplus_url = form.gplus_url.data
+            current_user.github_url = form.github_url.data
+            current_user.twitter_url = form.twitter_url.data
             saved = current_user.save()
             if saved:
                 flash("Saved your settings...")
