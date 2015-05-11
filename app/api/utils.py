@@ -8,9 +8,9 @@ from app.models import User
 
 
 def auth_required(data=None, **kwargs):
-    if not data and 'Authorization' in request.headers:
+    if 'Authorization' in request.headers:
         token = request.headers.get('Authorization')
-    elif 'token' in data:
+    elif data and 'token' in data:
         token = data.pop('token', None)
     else:
         raise ProcessingException(description="Authorization Token Required", code=401)

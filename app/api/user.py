@@ -17,7 +17,7 @@ class UserSchema(Schema):
     blog_public = fields.String()
 
     def make_object(self, data):
-        return User(**data)
+        return User(api_purpose=True, **data)
 
 
 def user_serializer(instance):

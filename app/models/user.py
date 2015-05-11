@@ -73,22 +73,24 @@ class User(db.Model):
     blog_paginate = db.Column(db.Boolean(), default=False)
     blog_paginate_by = db.Column(db.Integer(), default=10)
 
-    # Blog Visual
+    # Blog Design
     blog_truncate_posts = db.Column(db.Boolean(), default=False)
     blog_syntax_highlighter_css = db.Column(db.Enum(*SYNTAX_HIGHLIGHTER_CHOICES), default='monokai.css')
 
     posts = db.relationship('Post', backref='user', lazy='dynamic')
 
-    def __init__(self, active=True, superuser=False, **kwargs):
+    def __init__(self, active=True, superuser=False, api_purpose=False, **kwargs):
         """
         :param username: The username of the user, will become the blog subdomain once slugified.
         :param password: The raw password to be encrypted and stored.
         :param active: To change once postfix is setup and app can send mails.
         :param superuser: Set if the user is a superuser (currently no use for that)
+        :param api_purpose: If using this with Marshmallow, do not bother to generate a password.
         """
         super(User, self).__init__(active=active, superuser=superuser, **kwargs)
         now = datetime.utcnow()
-        self.set_password(self.password)
+        if not api_purpose:
+            self.set_password(self.password)
         self.register_date = now
         self.last_login = now
         self.blog_slug = slugify(self.username)
