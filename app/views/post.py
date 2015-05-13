@@ -44,6 +44,7 @@ def edit(post_id):
 
                 post.title = form.title.data
                 post.content = form.content.data
+                post.set_title_slug()
                 saved = post.save()
                 if saved:
                     flash("Successfully saved the post.")

@@ -23,6 +23,9 @@ class Post(db.Model):
     def __init__(self, **kwargs):
         super(Post, self).__init__(**kwargs)
         self.pub_date = self.pub_date if self.pub_date is not None else datetime.utcnow()
+        self.set_title_slug()
+
+    def set_title_slug(self):
         self.title_slug = slugify("{date}-{title}".format(date=str(self.pub_date.date()), title=self.title))
 
     def save(self):
