@@ -3,4 +3,4 @@
 from .login import LoginForm
 from .register import RegisterForm
 from .post import NewPostForm, EditPostForm
-from .settings import SettingForm
+from .settings import SettingForm, ChangePasswordForm

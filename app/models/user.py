@@ -124,6 +124,9 @@ class User(db.Model):
         else:
             return list(self.posts.order_by(desc(Post.pub_date)).all())[self.blog_paginate_by * page: self.blog_paginate_by * (page+1)]
 
+    def get_all_posts(self):
+        return list(self.posts.order_by(desc(Post.pub_date)).all())
+
     def save(self):
         db.session.add(self)
         try:

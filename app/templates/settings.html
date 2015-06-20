@@ -1,9 +1,10 @@
 {% from "helpers.html" import render_field %}
-{% extends "blog_base.html" %}
+{% extends "blog/blog_base.html" %}
 
 {% block extra_css_resources %}
 <link href="//gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
 {% endblock %}
+
 {% block extrajs %}
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 {% endblock %}
@@ -48,6 +49,20 @@
                         {{ render_field(form.github_url) }}
                         {{ render_field(form.twitter_url) }}
                         <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ form._prefix }}btn">Save</button>
+                    </div>
+                </div>
+            </form>
+            <form method="post" action="">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Change Password
+                    </div>
+                    <div class="panel-body">
+                        {{ change_pwd_form.hidden_tag() }}
+                        {{ render_field(change_pwd_form.old_password) }}
+                        {{ render_field(change_pwd_form.new_password) }}
+                        {{ render_field(change_pwd_form.repeat_new_password) }}
+                        <button class="btn btn-lg btn-primary btn-block" name="btn" type="submit" value="{{ change_pwd_form._prefix }}btn">Save</button>
                     </div>
                 </div>
             </form>

@@ -1,11 +1,37 @@
 # -*- coding: utf-8 -*-
 
-from wtforms.fields import StringField, TextAreaField, BooleanField, IntegerField, SelectField
-from wtforms.validators import DataRequired, Length, URL, Optional
+from flask_login import current_user
+
+from wtforms.fields import StringField, TextAreaField, BooleanField, IntegerField, SelectField, PasswordField
+from wtforms.validators import DataRequired, Length, URL, Optional, EqualTo
+from wtforms import ValidationError
 
 from .base import CustomForm
 from .utils import ImageUrl
 from app.models.user import SYNTAX_HIGHLIGHTER_TUPLE
+
+
+
+class ChangePasswordForm(CustomForm):
+    old_password = PasswordField(
+        'Old Password',
+        validators=[DataRequired(), ],
+        description={'placeholder': "Old Password"}
+    )
+    new_password = PasswordField(
+        'New Password',
+        validators=[DataRequired(), ],
+        description={'placeholder': "New Password"}
+    )
+    repeat_new_password = PasswordField(
+        'Repeat New Password',
+        validators=[DataRequired(), EqualTo('new_password', message='Passwords must match')],
+        description={'placeholder': "Repeat New Password"}
+    )
+
+    def validate_old_password(self, field):
+        if not current_user.check_password(self.old_password.data):
+            raise ValidationError("Wrong old password")
 
 
 class SettingForm(CustomForm):

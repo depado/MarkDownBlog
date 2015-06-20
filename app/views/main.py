@@ -3,11 +3,11 @@
 from datetime import datetime
 
 from flask import render_template, redirect, url_for, request, flash
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user
 
 from app import app
-from app.forms import LoginForm, RegisterForm, SettingForm
-from app.models import User, Post
+from app.forms import LoginForm, RegisterForm
+from app.models import User
 from app.views.explore import explore_context
 
 
@@ -28,7 +28,7 @@ def index():
     #         return redirect(url_for("index", _scheme="https"))
 
     if current_user.is_authenticated():
-        return render_template("blog_explore.html", **explore_context())
+        return render_template("blog/blog_explore.html", **explore_context())
 
     start_div = "home-div"
     login_form = LoginForm(request.form, prefix="login")
@@ -60,35 +60,3 @@ def index():
 def logout():
     logout_user()
     return redirect(url_for("index"))
-
-@app.route("/settings", methods=['GET', 'POST'])
-@login_required
-def settings():
-    form = SettingForm(obj=current_user)
-    if form.has_been_submitted(request):
-        if form.validate_on_submit():
-            current_user.blog_title = form.blog_title.data
-            current_user.blog_description = form.blog_description.data
-            current_user.blog_image = form.blog_image.data
-            current_user.blog_image_rounded = form.blog_image_rounded.data
-            current_user.blog_bg = form.blog_bg.data
-            current_user.blog_bg_public = form.blog_bg_public.data
-            current_user.blog_bg_everywhere = form.blog_bg_everywhere.data
-            current_user.blog_bg_override = form.blog_bg_override.data
-            current_user.blog_bg_repeat = form.blog_bg_repeat.data
-            current_user.blog_paginate = form.blog_paginate.data
-            current_user.blog_paginate_by = form.blog_paginate_by.data
-            current_user.blog_public = form.blog_public.data
-            current_user.blog_truncate_posts = form.blog_truncate_posts.data
-            current_user.blog_syntax_highlighter_css = form.blog_syntax_highlighter_css.data
-            current_user.linkedin_url = form.linkedin_url.data
-            current_user.gplus_url = form.gplus_url.data
-            current_user.github_url = form.github_url.data
-            current_user.twitter_url = form.twitter_url.data
-            saved = current_user.save()
-            if saved:
-                flash("Saved your settings...")
-                return redirect(url_for("blog.index", user_slug=current_user.blog_slug))
-            else:
-                flash("Something went wrong...")
-    return render_template("settings.html", form=form)
