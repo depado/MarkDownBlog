@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, make_response, abort
 from flask_login import current_user
 from sqlalchemy import desc
 
@@ -54,6 +54,31 @@ def get(user_slug, post_slug):
                                **generate_background_css(blog_user))
     else:
         return render_template("blog/blog_page_404.html")
+
+
+@blueprint.route("/<post_slug>/raw")
+@blog_exists
+def get_raw(user_slug, post_slug):
+    post = Post.query.filter_by(title_slug=post_slug).first()
+    if post is not None:
+        resp = make_response(post.content)
+        resp.mimetype = 'text/plain'
+        return resp
+    else:
+        abort(404)
+
+
+@blueprint.route("/<post_slug>/ansi")
+@blog_exists
+def get_ansi(user_slug, post_slug):
+    post = Post.query.filter_by(title_slug=post_slug).first()
+    if post is not None:
+        resp = make_response(post.content_as_ansi())
+        resp.mimetype = 'text/plain'
+        resp.charset = 'utf-8'
+        return resp
+    else:
+        abort(404)
 
 
 @blueprint.route("/all")
