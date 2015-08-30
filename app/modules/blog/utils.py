@@ -23,7 +23,7 @@ def generate_background_css(blog_user=None):
     repeat_mode = "no-repeat"
     background_cover = True
     backgroud_css_template = "background: url('{background_url}') {repeat_mode} center center fixed;"
-    background_url = url_for('static', filename='img/2.png')
+    background_url = url_for('static', filename='img/bg.jpg')
 
     if blog_user:
         if blog_user.blog_bg and blog_user.blog_bg_public:

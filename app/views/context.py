@@ -9,7 +9,7 @@ def generate_bg_css():
     repeat_mode = "no-repeat"
     background_cover = True
     backgroud_css_template = "background: url('{background_url}') {repeat_mode} center center fixed;"
-    background_url = url_for('static', filename='img/2.png')
+    background_url = url_for('static', filename='img/bg.jpg')
     if current_user.is_authenticated():
         if current_user.blog_bg and current_user.blog_bg_everywhere:
             background_url = current_user.blog_bg
