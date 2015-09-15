@@ -6,6 +6,7 @@ from flask_login import login_required, current_user
 from app import app
 from app.forms import SettingForm, ChangePasswordForm
 
+
 @app.route("/settings", methods=['GET', 'POST'])
 @login_required
 def settings():
@@ -13,7 +14,6 @@ def settings():
     change_pwd_form = ChangePasswordForm(prefix='pwd')
 
     if form.has_been_submitted(request):
-        print("Not supposed to be here")
         if form.validate_on_submit():
             current_user.blog_title = form.blog_title.data
             current_user.blog_description = form.blog_description.data
@@ -48,5 +48,15 @@ def settings():
                 flash("Changed your password.")
             else:
                 flash("Something went wrong...")
-
     return render_template("settings.html", form=form, change_pwd_form=change_pwd_form)
+
+
+@app.route("/settings/logs", methods=['GET'])
+@login_required
+def logs():
+    content = ""
+    with open("/var/log/nginx/access.log") as fd:
+        for line in fd:
+            if current_user.blog_slug + ".markdownblog.com" in line and not "mypi" in line:
+                content += line
+    return content

@@ -105,20 +105,20 @@
     </div>
     <div class="panel-footer">
         <h4><a href="{{ url_for('blog.index', user_slug=user.blog_slug) }}">{{ user.blog_title | e }}</a></h4>
-        <p>{{ user.blog_description | e }}</p>
-                {% if user.gplus_url %}
-                <a href="{{ user.gplus_url }}" style="color: #d34836;"><i class="fa my-fa-google-plus-square fa-2x"></i></a>
-                {% endif %}
-                {% if user.twitter_url %}
-                <a href="{{ user.twitter_url }}"><i class="fa my-fa-twitter-square fa-2x"></i></a>
-                {% endif %}
-                {% if user.linkedin_url %}
-                <a href="{{ user.linkedin_url }}"><i class="fa my-fa-linkedin-square fa-2x"></i></a>
-                {% endif %}
-                {% if user.github_url %}
-                <a href="{{ user.github_url }}" style="color: black;"><i class="fa fa-github-square fa-2x"></i></a>
-                {% endif %}
-                <a href="{{ url_for('blog.rss_feed', user_slug=user.blog_slug) }}"><i class="fa fa-rss-square fa-2x"></i></a>
+        <p>{{ user.description_as_html() | safe }}</p>
+        {% if user.gplus_url %}
+        <a href="{{ user.gplus_url }}" style="color: #d34836;"><i class="fa my-fa-google-plus-square fa-2x"></i></a>
+        {% endif %}
+        {% if user.twitter_url %}
+        <a href="{{ user.twitter_url }}"><i class="fa my-fa-twitter-square fa-2x"></i></a>
+        {% endif %}
+        {% if user.linkedin_url %}
+        <a href="{{ user.linkedin_url }}"><i class="fa my-fa-linkedin-square fa-2x"></i></a>
+        {% endif %}
+        {% if user.github_url %}
+        <a href="{{ user.github_url }}" style="color: black;"><i class="fa fa-github-square fa-2x"></i></a>
+        {% endif %}
+        <a href="{{ url_for('blog.rss_feed', user_slug=user.blog_slug) }}"><i class="fa fa-rss-square fa-2x"></i></a>
         {% if owner %}
         <a href="{{ url_for('new') }}" class="btn btn-primary btn-block">Write a New Article</a>
         {% endif %}

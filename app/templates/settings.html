@@ -19,7 +19,10 @@
                         Settings
                     </div>
                     <div class="panel-body">
-                        <span class="pull-right"><a class="btn btn-primary" href="#" onclick="$('.help').toggle(); return false;">Help</a></span>
+                        <span class="pull-right">
+                            <a class="btn btn-success" href="{{ url_for('logs') }}">Logs</a>
+                            <a class="btn btn-primary" href="#" onclick="$('.help').toggle(); return false;">Help</a>
+                        </span>
                         {{ form.hidden_tag() }}
                         <h2>Blog Description</h2>
                         {{ render_field(form.blog_title) }}

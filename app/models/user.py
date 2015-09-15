@@ -10,6 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_admin.contrib.sqla import ModelView
 
 from app.models import AuthMixin, Post
+from app.utils import markdown_renderer
 from app import app, db, login_manager
 
 SYNTAX_HIGHLIGHTER_CHOICES = [
@@ -183,6 +184,9 @@ class User(db.Model):
             return None
         user = User.query.get(data['id'])
         return user
+
+    def description_as_html(self):
+        return markdown_renderer.render(self.blog_description)
 
     def __repr__(self):
         return self.username
