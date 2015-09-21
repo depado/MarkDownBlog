@@ -2,6 +2,7 @@ alabaster==0.7.3
 alembic==0.7.4
 Babel==1.3
 beautifulsoup4==4.3.2
+Cython==0.23.2
 docutils==0.12
 Flask==0.10.1
 Flask-Admin==1.0.9
@@ -23,6 +24,7 @@ MarkupSafe==0.23
 marshmallow==1.2.4
 mimerender==0.5.5
 misaka==1.0.2
+mistune==0.7.1
 pycrypto==2.6.1
 Pygments==2.0.2
 python-dateutil==2.4.2

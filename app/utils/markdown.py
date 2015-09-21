@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
+import mistune
 import misaka
-from misaka import HtmlRenderer, SmartyPants, BaseRenderer
+from misaka import BaseRenderer
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
 from pygments.formatters.terminal256 import Terminal256Formatter
+
+from .math import MathInlineMixin, MathRendererMixin
 
 
 class AnsiRenderer(BaseRenderer):
@@ -86,30 +89,34 @@ ansi_renderer = misaka.Markdown(
     extensions=misaka.EXT_FENCED_CODE | misaka.EXT_NO_INTRA_EMPHASIS
 )
 
-class HighlighterRenderer(HtmlRenderer, SmartyPants):
 
-    def block_code(self, text, lang):
-        has_syntax_highlite = False
+class HighlighterRenderer(mistune.Renderer, MathRendererMixin):
+
+    def block_code(self, code, lang=None):
         if not lang:
             lang = 'text'
         try:
             lexer = get_lexer_by_name(lang, stripall=True)
-            if lang != 'text':
-                has_syntax_highlite = True
         except:
             lexer = get_lexer_by_name('text', stripall=True)
-
         formatter = HtmlFormatter()
         return "{open_block}{formatted}{close_block}".format(
-            open_block="<div class='code-highlight'>" if has_syntax_highlite else '',
-            formatted=highlight(text, lexer, formatter),
-            close_block="</div>" if has_syntax_highlite else ''
+            open_block="<div class='code-highlight'>" if lang != 'text' else '',
+            formatted=highlight(code, lexer, formatter),
+            close_block="</div>" if lang != 'text' else ''
         )
 
     def table(self, header, body):
         return "<table class='table table-bordered table-hover'>" + header + body + "</table>"
 
-markdown_renderer = misaka.Markdown(
-    HighlighterRenderer(flags=misaka.HTML_ESCAPE | misaka.HTML_HARD_WRAP | misaka.HTML_SAFELINK),
-    extensions=misaka.EXT_FENCED_CODE | misaka.EXT_NO_INTRA_EMPHASIS | misaka.EXT_TABLES | misaka.EXT_AUTOLINK | misaka.EXT_SPACE_HEADERS | misaka.EXT_STRIKETHROUGH | misaka.EXT_SUPERSCRIPT
-)
+
+class MyInlineLexer(mistune.InlineLexer, MathInlineMixin):
+
+    def __init__(self, *args, **kwargs):
+        super(MyInlineLexer, self).__init__(*args, **kwargs)
+        self.enable_math()
+
+
+renderer = HighlighterRenderer()
+inline = MyInlineLexer(renderer)
+markdown_renderer = mistune.Markdown(renderer=renderer, escape=True, hard_wrap=True, inline=inline)

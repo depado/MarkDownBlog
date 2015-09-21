@@ -44,6 +44,12 @@
         </div>
     </div>
 </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$']]}
+    });
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>
     $("#click-preview").click(function () {
         $.ajax({
@@ -55,6 +61,7 @@
                 $('#previewmodal').modal();
                 $('#preview_title').html("<h4>" + $("#{{ form.title.id }}").val() + "</h4>");
                 $("#preview_body").html(result);
+                MathJax.Hub.Typeset()
             }
         });
         return false;
