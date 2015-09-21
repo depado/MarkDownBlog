@@ -109,6 +109,19 @@ class HighlighterRenderer(mistune.Renderer, MathRendererMixin):
     def table(self, header, body):
         return "<table class='table table-bordered table-hover'>" + header + body + "</table>"
 
+    def image(self, src, title, text):
+        if src.startswith('javascript:'):
+            src = ''
+        text = mistune.escape(text, quote=True)
+        if title:
+            title = mistune.escape(title, quote=True)
+            html = '<img class="img-responsive center-block" src="%s" alt="%s" title="%s"' % (src, text, title)
+        else:
+            html = '<img class="img-responsive center-block" src="%s" alt="%s"' % (src, text)
+        if self.options.get('use_xhtml'):
+            return '%s />' % html
+        return '%s>' % html
+
 
 class MyInlineLexer(mistune.InlineLexer, MathInlineMixin):
 
