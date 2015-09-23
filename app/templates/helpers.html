@@ -65,7 +65,7 @@
     </div>
     <div class="panel-body" id="post-{{ post.id }}">
         <div id="post-parsed-{{ post.id }}">
-            {{ post.content_as_html() | safe }}
+            {{ post.content_as_html(index) | safe }}
         </div>
         <div id="post-raw-{{ post.id }}" style="display: none;">
             <pre>{{ post.content }}</pre>

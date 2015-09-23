@@ -51,8 +51,8 @@ class Post(db.Model):
             return False
         return True
 
-    def content_as_html(self):
-        if self.user.blog_truncate_posts:
+    def content_as_html(self, index=False):
+        if self.user.blog_truncate_posts and index:
             content = markdown_renderer.render(self.content)
             try:
                 truncated = content[:300 + content[300:].index(" ")]
