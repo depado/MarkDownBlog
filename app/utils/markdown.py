@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 
+import re
+
 import mistune
 import misaka
-from misaka import BaseRenderer
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
 from pygments.formatters.terminal256 import Terminal256Formatter
 
-from .math import MathInlineMixin, MathRendererMixin
 
-
-class AnsiRenderer(BaseRenderer):
+class AnsiRenderer(misaka.BaseRenderer):
 
     def block_quote(self, quote):
         return "{}\n\n".format(quote)
@@ -89,8 +88,71 @@ ansi_renderer = misaka.Markdown(
     extensions=misaka.EXT_FENCED_CODE | misaka.EXT_NO_INTRA_EMPHASIS
 )
 
+class MathBlockGrammar(mistune.BlockGrammar):
+    block_math = re.compile(r"^\$\$(.*?)\$\$", re.DOTALL)
+    latex_environment = re.compile(r"^\\begin\{([a-z]*\*?)\}(.*?)\\end\{\1\}",
+                                                re.DOTALL)
 
-class HighlighterRenderer(mistune.Renderer, MathRendererMixin):
+class MathBlockLexer(mistune.BlockLexer):
+    default_rules = ['block_math', 'latex_environment'] + mistune.BlockLexer.default_rules
+
+    def __init__(self, rules=None, **kwargs):
+        if rules is None:
+            rules = MathBlockGrammar()
+        super(MathBlockLexer, self).__init__(rules, **kwargs)
+
+    def parse_block_math(self, m):
+        """Parse a $$math$$ block"""
+        self.tokens.append({
+            'type': 'block_math',
+            'text': m.group(1)
+        })
+
+    def parse_latex_environment(self, m):
+        self.tokens.append({
+            'type': 'latex_environment',
+            'name': m.group(1),
+            'text': m.group(2)
+        })
+
+
+class MathInlineGrammar(mistune.InlineGrammar):
+    math = re.compile(r"^\$(.+?)\$", re.DOTALL)
+    block_math = re.compile(r"^\$\$(.+?)\$\$", re.DOTALL)
+    text = re.compile(r'^[\s\S]+?(?=[\\<!\[_*`~$]|https?://| {2,}\n|$)')
+
+
+class MathInlineLexer(mistune.InlineLexer):
+    default_rules = ['block_math', 'math'] + mistune.InlineLexer.default_rules
+
+    def __init__(self, renderer, rules=None, **kwargs):
+        if rules is None:
+            rules = MathInlineGrammar()
+        super(MathInlineLexer, self).__init__(renderer, rules, **kwargs)
+
+    def output_math(self, m):
+        return self.renderer.inline_math(m.group(1))
+
+    def output_block_math(self, m):
+        return self.renderer.block_math(m.group(1))
+
+
+class MarkdownWithMath(mistune.Markdown):
+    def __init__(self, renderer, **kwargs):
+        if 'inline' not in kwargs:
+            kwargs['inline'] = MathInlineLexer
+        if 'block' not in kwargs:
+            kwargs['block'] = MathBlockLexer
+        super(MarkdownWithMath, self).__init__(renderer, **kwargs)
+
+    def output_block_math(self):
+        return self.renderer.block_math(self.token['text'])
+
+    def output_latex_environment(self):
+        return self.renderer.latex_environment(self.token['name'], self.token['text'])
+
+
+class HighlighterRenderer(mistune.Renderer):
 
     def block_code(self, code, lang=None):
         if not lang:
@@ -122,14 +184,14 @@ class HighlighterRenderer(mistune.Renderer, MathRendererMixin):
             return '%s />' % html
         return '%s>' % html
 
+    # Pass math through unaltered - mathjax does the rendering in the browser
+    def block_math(self, text):
+        return '$$%s$$' % text
 
-class MyInlineLexer(mistune.InlineLexer, MathInlineMixin):
+    def latex_environment(self, name, text):
+        return r'\begin{%s}%s\end{%s}' % (name, text, name)
 
-    def __init__(self, *args, **kwargs):
-        super(MyInlineLexer, self).__init__(*args, **kwargs)
-        self.enable_math()
+    def inline_math(self, text):
+        return '$%s$' % text
 
-
-renderer = HighlighterRenderer()
-inline = MyInlineLexer(renderer)
-markdown_renderer = mistune.Markdown(renderer=renderer, escape=True, hard_wrap=True, inline=inline)
+markdown_renderer = MarkdownWithMath(renderer=HighlighterRenderer(escape=False))
