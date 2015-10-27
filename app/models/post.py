@@ -8,7 +8,7 @@ from flask import url_for
 from flask_login import current_user
 
 from app import app, db
-from app.utils import markdown_renderer, ansi_renderer
+from app.utils import markdown_renderer, ansi_renderer, renderer
 
 
 class Post(db.Model):
@@ -63,7 +63,10 @@ class Post(db.Model):
             except Exception as e:
                 return content
         else:
-            return markdown_renderer.render(self.content)
+            # renderer.reset_toc()
+            content = markdown_renderer.render(self.content)
+            # renderer.render_toc(level=3)
+            return content
 
     def content_as_ansi(self):
         return ansi_renderer.render(self.content)
