@@ -61,3 +61,8 @@ def index():
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+
+@app.route("/faq", methods=['GET'])
+def faq():
+    return render_template("faq.html")

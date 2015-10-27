@@ -1,0 +1,31 @@
+{% extends "blog/blog_base.html" %}
+
+{% block inner_content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="well">
+            <h1>Frequently Asked Questions</h1>
+            <h4><i>I guess every website needs one. Am I wrong ?</i></h4>
+            <h3>Why did you create that platform ?</h3>
+            <p><b>Short Answer</b><br />Because I wanted to.</p>
+            <p>
+                <b>Long Answer</b><br />
+                For a long time, I wanted to create myself a blog. I fell in love with the markdown
+                format and started playing around with markdown processors in Python, and creating my blog using Flask.
+                And then I told myself "Hey, it looks pretty easy to transform your blog into a blogging platform". Obviously, I was wrong.
+                I challenged myself, I wanted to have a working blogging platform using the markdown format and a subdomain per user in just
+                three days. It was a success. Since then I just keep pushing new stuff to the platform along with writing articles on my blog.
+            </p>
+            <h3>That project is awesome. Can I run MarkDownBlog on my own server ?</h3>
+            <p>
+                Of course you can. The code of MarkDownBlog is open-source on GitHub, and is under the MIT license. There is actually
+                a short tutorial on how to deploy MarkDownBlog on your own server and customizing it a bit in the README.md file.<br />
+                <b>Note</b><br />
+                This was not the primary goal. At all. I'll accept feature requests on GitHub or issues, but keep in mind that this code
+                wasn't originally made to run elsewhere than on my own server. I won't fix issues for you, I won't add features unless
+                I find them fun to add and/or useful. As the code is free, you can modify it to suit your needs.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
