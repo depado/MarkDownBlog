@@ -12,18 +12,18 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                {% if user.is_authenticated() %}
+                {% if user.is_authenticated %}
                 <li><a href="{{ url_for('index') }}"><i class="fa fa-search"></i>&nbsp;&nbsp;Explore</a></li>
                 <li><a href="{{ url_for('blog.index', user_slug=user.blog_slug) }}"><i class="fa fa-comment"></i>&nbsp;&nbsp;My Blog</a></li>
                 <li><a href="{{ url_for('new') }}"><i class="fa fa-file-text"></i>&nbsp;&nbsp;New Article</a></li>
                 <li><a href="{{ url_for('settings') }}"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Settings</a></li>
                 {% endif %}
-                {% if user.is_anonymous() %}
+                {% if user.is_anonymous %}
                 <li><a href="{{ url_for('index') }}"><i class="fa fa-home"></i>&nbsp;&nbsp;Home</a></li>
                 <li><a href="{{ url_for('explore') }}"><i class="fa fa-search"></i>&nbsp;&nbsp;Explore</a></li>
                 {% endif %}
             </ul>
-            {% if user.is_authenticated() %}
+            {% if user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{{ url_for('logout') }}"><i class="fa fa-power-off"></i> Logout</a></li>
             </ul>

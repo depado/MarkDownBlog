@@ -27,12 +27,12 @@ def generate_background_css(blog_user=None):
 
     if blog_user:
         if blog_user.blog_bg and blog_user.blog_bg_public:
-            if current_user.is_authenticated() and current_user.blog_bg and current_user.blog_bg_override:
+            if current_user.is_authenticated and current_user.blog_bg and current_user.blog_bg_override:
                 chosen = current_user
             else:
                 chosen = blog_user
     else:
-        if current_user.is_authenticated() and current_user.blog_bg and current_user.blog_bg_everywhere:
+        if current_user.is_authenticated and current_user.blog_bg and current_user.blog_bg_everywhere:
             chosen = current_user
 
     if chosen:

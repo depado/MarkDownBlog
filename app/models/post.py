@@ -63,9 +63,8 @@ class Post(db.Model):
             except Exception as e:
                 return content
         else:
-            # renderer.reset_toc()
+            renderer.reset_toc()
             content = markdown_renderer.render(self.content)
-            # renderer.render_toc(level=3)
             return content
 
     def content_as_ansi(self):
