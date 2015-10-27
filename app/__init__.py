@@ -4,10 +4,9 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 from werkzeug.contrib.fixers import ProxyFix
-from flask import Flask, redirect
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_admin import Admin, AdminIndexView, expose
 from flask_misaka import Misaka
 from flask_restless import APIManager
 
@@ -38,20 +37,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'index'
 login_manager.session_protection = 'strong'
-
-
-class MyAdminIndexView(AdminIndexView):
-    """
-    Administration Setup
-    """
-    @expose('/')
-    def index(self):
-        if current_user.is_authenticated():
-            if current_user.is_superuser():
-                return super(MyAdminIndexView, self).index()
-        return redirect(url_for('MainView:index'))
-
-admin = Admin(app, 'We Rate Movies', index_view=MyAdminIndexView())
 
 manager = APIManager(app, flask_sqlalchemy_db=db)
 

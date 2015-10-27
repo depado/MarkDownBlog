@@ -7,9 +7,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import SignatureExpired, BadSignature
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from flask_admin.contrib.sqla import ModelView
-
-from app.models import AuthMixin, Post
+from app.models import Post
 from app.utils import markdown_renderer
 from app import app, db, login_manager
 
@@ -193,12 +191,6 @@ class User(db.Model):
 
     def __str__(self):
         return self.username
-
-
-class UserView(AuthMixin, ModelView):
-
-    def __init__(self, session, **kwargs):
-        super(UserView, self).__init__(User, session, **kwargs)
 
 
 @login_manager.user_loader

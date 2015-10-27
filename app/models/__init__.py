@@ -2,4 +2,4 @@
 
 from .mixins import AuthMixin
 from .post import Post
-from .user import User, UserView
+from .user import User

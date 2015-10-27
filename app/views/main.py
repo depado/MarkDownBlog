@@ -27,7 +27,7 @@ def index():
     #     if request.scheme == "http":
     #         return redirect(url_for("index", _scheme="https"))
 
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return render_template("blog/blog_explore.html", **explore_context())
 
     start_div = "home-div"
@@ -55,6 +55,7 @@ def index():
             start_div = "registration-div"
 
     return render_template("index.html", login_form=login_form, register_form=register_form, start_div=start_div)
+
 
 @app.route("/logout", methods=['GET'])
 def logout():

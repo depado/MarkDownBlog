@@ -56,6 +56,6 @@ def blog_exists(f):
         if user_slug:
             blog_user = requested_blog_user(user_slug)
             if not blog_user:
-                return render_template("blog/blog_404.html", blog_name=utils.escape(user_slug))
+                return render_template("blog_404.html", blog_name=utils.escape(user_slug))
         return f(*args, **kwargs)
     return decorated_function

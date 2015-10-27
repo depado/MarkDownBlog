@@ -1,0 +1,6 @@
+env/
+.git
+.idea
+examples
+LICENSE.md
+README.md

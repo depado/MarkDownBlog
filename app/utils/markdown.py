@@ -88,10 +88,11 @@ ansi_renderer = misaka.Markdown(
     extensions=misaka.EXT_FENCED_CODE | misaka.EXT_NO_INTRA_EMPHASIS
 )
 
+
 class MathBlockGrammar(mistune.BlockGrammar):
     block_math = re.compile(r"^\$\$(.*?)\$\$", re.DOTALL)
-    latex_environment = re.compile(r"^\\begin\{([a-z]*\*?)\}(.*?)\\end\{\1\}",
-                                                re.DOTALL)
+    latex_environment = re.compile(r"^\\begin\{([a-z]*\*?)\}(.*?)\\end\{\1\}", re.DOTALL)
+
 
 class MathBlockLexer(mistune.BlockLexer):
     default_rules = ['block_math', 'latex_environment'] + mistune.BlockLexer.default_rules
@@ -194,4 +195,62 @@ class HighlighterRenderer(mistune.Renderer):
     def inline_math(self, text):
         return '$%s$' % text
 
-markdown_renderer = MarkdownWithMath(renderer=HighlighterRenderer(escape=False))
+    def reset_toc(self):
+        self.toc_tree = []
+        self.toc_count = 0
+
+    def header(self, text, level, raw=None):
+        rv = '<h%d id="toc-%d">%s</h%d>\n' % (
+            level, self.toc_count, text, level
+        )
+        self.toc_tree.append((self.toc_count, text, level, raw))
+        self.toc_count += 1
+        return rv
+
+    def render_toc(self, level=3):
+        """Render TOC to HTML.
+        :param level: render toc to the given level
+        """
+        return ''.join(self._iter_toc(level))
+
+    def _iter_toc(self, level):
+        first_level = None
+        last_level = None
+
+        yield '<ul id="table-of-content">\n'
+
+        for toc in self.toc_tree:
+            index, text, l, raw = toc
+
+            if l > level:
+                # ignore this level
+                continue
+
+            if first_level is None:
+                # based on first level
+                first_level = l
+                last_level = l
+                yield '<li><a href="#toc-%d">%s</a>' % (index, text)
+            elif last_level == l:
+                yield '</li>\n<li><a href="#toc-%d">%s</a>' % (index, text)
+            elif last_level == l - 1:
+                last_level = l
+                yield '<ul>\n<li><a href="#toc-%d">%s</a>' % (index, text)
+            elif last_level > l:
+                # close indention
+                yield '</li>'
+                while last_level > l:
+                    yield '</ul>\n</li>\n'
+                    last_level -= 1
+                yield '<li><a href="#toc-%d">%s</a>' % (index, text)
+
+        # close tags
+        yield '</li>\n'
+        while last_level > first_level:
+            yield '</ul>\n</li>\n'
+            last_level -= 1
+
+        yield '</ul>\n'
+
+renderer = HighlighterRenderer(escape=False)
+markdown_renderer = MarkdownWithMath(renderer=renderer)
