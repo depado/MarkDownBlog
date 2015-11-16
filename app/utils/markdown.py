@@ -155,6 +155,11 @@ class MarkdownWithMath(mistune.Markdown):
 
 class HighlighterRenderer(mistune.Renderer):
 
+    def __init__(self, *args, **kwargs):
+        super(HighlighterRenderer, self).__init__(*args, **kwargs)
+        self.toc_count = 0
+        self.toc_tree = []
+
     def block_code(self, code, lang=None):
         if not lang:
             lang = 'text'
