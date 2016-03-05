@@ -155,8 +155,8 @@ class MarkdownWithMath(mistune.Markdown):
 
 class HighlighterRenderer(mistune.Renderer):
 
-    def __init__(self, *args, **kwargs):
-        super(HighlighterRenderer, self).__init__(*args, **kwargs)
+    def __init__(self, **kwargs):
+        super(HighlighterRenderer, self).__init__(**kwargs)
         self.toc_count = 0
         self.toc_tree = []
 
