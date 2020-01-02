@@ -60,7 +60,7 @@ def edit(post_id):
             return redirect(url_for('index'))
     else:
         # The post has not been found
-        return render_template("blog/blog_page_404", post_id=post_id)
+        return render_template("blog/blog_page_404.html", post_id=post_id)
 
 @app.route("/delete/<int:post_id>")
 def delete(post_id):
